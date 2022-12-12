@@ -28,7 +28,7 @@ int main() {
     shadow.disconnect(terminal);
     shadow.hijack(my_func);
 
-    terminal.connect(wrd::_TERMINAL_::A);
+    terminal.connect(wrd::_TERMINAL_::A_220);
     terminal.hijack(my_func);
     terminal.override();
 

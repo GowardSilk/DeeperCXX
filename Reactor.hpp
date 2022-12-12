@@ -9,19 +9,8 @@ template<typename T1, typename T2>
 class Shadow;
 
 namespace wrd {
-	wString read(std::ifstream& rf) {
-		wString s;
-		int len;
-		rf.read(reinterpret_cast<char *>(&len), sizeof(int));
-		char *buf = new char[len+1];
-		rf.read(buf, len);
-		buf[len] = '\0';
-		s = buf;
-		delete [] buf;
-		return s;
-	}
 	enum class _REACTOR_ {
-		R_DISCONNECTED, IMPACT_v1_2A, IMPACT_v0_9, TWINX_B, COLOSSUS_v0_5
+		R_DISCONNECTED, IMPACT_v1_2A, IMPACT_v0_9, TWINX_B, COLOSSUS_v0_5, MARSCHAL_v014, BUCKLAND_EX
 	};
 	class Reactor_prcl {
 		protected:
@@ -34,6 +23,17 @@ namespace wrd {
 			//
 			template<typename T1, typename T2>
 			friend class Shadow_prcl;
+			wString read(std::ifstream& rf) {
+				wString s;
+				int len;
+				rf.read(reinterpret_cast<char *>(&len), sizeof(int));
+				char *buf = new char[len+1];
+				rf.read(buf, len);
+				buf[len] = '\0';
+				s = buf;
+				delete [] buf;
+				return s;
+			}
 		public:
 			//default constructor
 			Reactor_prcl() = default;
@@ -154,6 +154,36 @@ namespace wrd {
 
 						rf.close();
 					}	break;
+				}
+			}
+			void hijack(wString (*func)(wString, int)) {
+				switch (this->reactor_type)
+				{
+				case _REACTOR_::MARSCHAL_v014:{
+					std::ifstream rf("Reactor5.dat", std::ios::out | std::ios::binary);
+					if(!rf) {
+						std::cout << "cannot read file!\n";
+					}
+					//TEST_CASES
+					for(unsigned i = 0; i < 10; i++) {
+						wString input1 = read(rf);
+						int input2;
+						rf.read((char *) &input2, sizeof(int));
+						wString expected = read(rf);
+
+						if(expected == func(input1, input2))
+							this->reactor_hack_success += 0.1f;
+
+						if(!rf.good()) {
+							std::cout << "error occurred at reading time!\n";
+						}
+					}
+					//!TEST_CASES
+
+					rf.close();
+				}	break;
+				default:
+					break;
 				}
 			}
 			void override() {

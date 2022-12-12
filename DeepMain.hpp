@@ -148,14 +148,14 @@ class TripletContainer : public std::vector<triplet<T>> {
 }; 
 
 template<typename S>
-	std::ostream& operator<<(std::ostream& out, const TripletContainer<S>& tr_con) {
-		for(const triplet<S> tr : tr_con) {
-			out << "{" << tr._triplet_unit_1 << ","
-			<< tr._triplet_unit_2 << ","
-			<< tr._triplet_unit_3 << "}";
-		}
-		return out;
+std::ostream& operator<<(std::ostream& out, const TripletContainer<S>& tr_con) {
+	for(const triplet<S> tr : tr_con) {
+		out << "{" << tr._triplet_unit_1 << ","
+		<< tr._triplet_unit_2 << ","
+		<< tr._triplet_unit_3 << "}";
 	}
+	return out;
+}
 //!triplet container
 
 template<typename T>
@@ -182,13 +182,13 @@ class CodeMatrix {
 		//default constructor
 		CodeMatrix() {}
 		//costructs with already pre-installed _Set_
-		CodeMatrix(std::uint8_t type) {
-			install(type);
-		}
+		// CodeMatrix(std::uint8_t type) {
+		// 	install(type);
+		// }
 		//destructor
 		~CodeMatrix() {}
 		//functions
-		void install(std::uint8_t type) {}
+		//void install(std::uint8_t type) {}
 		symbol get_symbol(Vector2u pos) {
 			return CM_arr[pos.y][pos.x];
 		}
