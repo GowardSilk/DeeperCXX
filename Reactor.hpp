@@ -10,7 +10,11 @@ class Shadow;
 
 namespace wrd {
 	enum class _REACTOR_ {
-		R_DISCONNECTED, IMPACT_v1_2A, IMPACT_v0_9, TWINX_B, COLOSSUS_v0_5, MARSCHAL_v014, BUCKLAND_EX
+		R_DISCONNECTED,
+        IMPACT_v1_2A,   //A sectors
+        IMPACT_v0_9, TWINX_B, COLOSSUS_v0_5,    //B sectors
+        MARSCHAL_v014, BUCKLAND_EX, JAMBO_v1_9, PLASIA_v0_2A,   //C sectors
+        BEAMX_v093, CITADEL_v2_2B, PYRO_ULT, ERUPT_v0_2, HADES_v0_45    //D sectors
 	};
 	class Reactor_prcl {
 		protected:
@@ -41,84 +45,106 @@ namespace wrd {
 			void hijack(wString (*func)(wString)) {
 				switch (reactor_type)
 				{
-				//check if usr is connected
-				case _REACTOR_::R_DISCONNECTED:
-					std::cout << "not connected!\n";
-					break;
-				//R_IMPACT 0074 v1.2A
-				case _REACTOR_::IMPACT_v1_2A:
-				{
-					std::ifstream rf("Reactor1.dat", std::ios::out | std::ios::binary);
-					if(!rf) {
-						std::cout << "cannot read file!\n";
-						exit(EXIT_FAILURE);
-					}
-
-					//TEST_CASES
-					for(unsigned i = 0; i < 10; i++) {
-						//input for T function
-						wString input = read(rf);
-						//expected result
-						wString expected = read(rf);
-
-						if(expected == func(input))
-							this->reactor_hack_success += 0.1f;
-
-						if(!rf.good()) {
-							std::cout << "error occurred at reading time!\n";
+					//check if usr is connected
+					case _REACTOR_::R_DISCONNECTED:
+						std::cout << "not connected!\n";
+						break;
+					case _REACTOR_::IMPACT_v1_2A: {
+						std::ifstream rf("Reactor1.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
+							exit(EXIT_FAILURE);
 						}
-					}
-					//!TEST_CASES
-				}	break;
-				//R_IMPACT 0075 v0.9
-				case _REACTOR_::IMPACT_v0_9: 
-				{
-					std::ifstream rf("Reactor2.dat", std::ios::out | std::ios::binary);
-					if(!rf) {
-						std::cout << "cannot read file!\n";
-					}
 
-					//TEST_CASES
-					for(unsigned i = 0; i < 10; i++) {
-						wString input = read(rf);
+						//TEST_CASES
+						for(unsigned i = 0; i < 10; i++) {
+							//input for T function
+							wString input = read(rf);
+							//expected result
+							wString expected = read(rf);
 
-						wString expected = read(rf);
+							if(expected == func(input))
+								this->reactor_hack_success += 0.1f;
 
-						if(expected == func(input))
-							this->reactor_hack_success += 0.1f;
-
-						if(!rf.good()) {
-							std::cout << "error occurred at reading time!\n";
+							if(!rf.good()) {
+								std::cout << "error occurred at reading time!\n";
+							}
 						}
-					}
-					//!TEST_CASES
-
-					rf.close();
-				}	break;
-				//R_COLOSSUS 0081 v0.5
-				case _REACTOR_::COLOSSUS_v0_5: {
-					std::ifstream rf("Reactor4.dat", std::ios::out | std::ios::binary);
-					if(!rf) {
-						std::cout << "cannot read file!\n";
-					}
-
-					//TEST_CASES
-					for(unsigned i = 0; i < 10; i++) {
-						wString input = read(rf);
-
-						wString expected = read(rf);
-
-						if(expected == func(input))
-							this->reactor_hack_success += 0.1f;
-
-						if(!rf.good()) {
-							std::cout << "error occurred at reading time!\n";
+						//!TEST_CASES
+					}	break;
+					case _REACTOR_::IMPACT_v0_9: {
+						std::ifstream rf("Reactor2.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
 						}
-					}
-					//!TEST_CASES
 
-					rf.close();
-				}	break;
+						//TEST_CASES
+						for(unsigned i = 0; i < 10; i++) {
+							wString input = read(rf);
+
+							wString expected = read(rf);
+
+							if(expected == func(input))
+								this->reactor_hack_success += 0.1f;
+
+							if(!rf.good()) {
+								std::cout << "error occurred at reading time!\n";
+							}
+						}
+						//!TEST_CASES
+
+						rf.close();
+					}	break;
+					case _REACTOR_::COLOSSUS_v0_5: {
+						std::ifstream rf("Reactor4.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
+						}
+
+						//TEST_CASES
+						for(unsigned i = 0; i < 10; i++) {
+							wString input = read(rf);
+
+							wString expected = read(rf);
+
+							if(expected == func(input))
+								this->reactor_hack_success += 0.1f;
+
+							if(!rf.good()) {
+								std::cout << "error occurred at reading time!\n";
+							}
+						}
+						//!TEST_CASES
+
+						rf.close();
+					}	break;
+					case _REACTOR_::PLASIA_v0_2A: {
+						std::ifstream rf("Reactor8.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
+						}
+						//TEST_CASES
+						//!TEST_CASES
+						rf.close();
+					}	break;
+					case _REACTOR_::BEAMX_v093: {
+						std::ifstream rf("Reactor9.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
+						}
+						//TEST_CASES
+						//!TEST_CASES
+						rf.close();
+					}	break;
+					case _REACTOR_::PYRO_ULT: {
+						std::ifstream rf("Reactor11.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
+						}
+						//TEST_CASES
+						//!TEST_CASES
+						rf.close();
+					}	break;
 				}
 			}
 			void hijack(wString (*func)(sString)) {
@@ -159,34 +185,85 @@ namespace wrd {
 			void hijack(wString (*func)(wString, int)) {
 				switch (this->reactor_type)
 				{
-				case _REACTOR_::MARSCHAL_v014:{
-					std::ifstream rf("Reactor5.dat", std::ios::out | std::ios::binary);
-					if(!rf) {
-						std::cout << "cannot read file!\n";
-					}
-					//TEST_CASES
-					for(unsigned i = 0; i < 10; i++) {
-						wString input1 = read(rf);
-						int input2;
-						rf.read((char *) &input2, sizeof(int));
-						wString expected = read(rf);
-
-						if(expected == func(input1, input2))
-							this->reactor_hack_success += 0.1f;
-
-						if(!rf.good()) {
-							std::cout << "error occurred at reading time!\n";
+					case _REACTOR_::R_DISCONNECTED:
+						std::cout << "not connected!\n";
+						break;
+					case _REACTOR_::MARSCHAL_v014: {
+						std::ifstream rf("Reactor5.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
 						}
-					}
-					//!TEST_CASES
+						//TEST_CASES
+						for(unsigned i = 0; i < 10; i++) {
+							wString input1 = read(rf);
+							int input2;
+							rf.read((char *) &input2, sizeof(int));
+							wString expected = read(rf);
 
-					rf.close();
-				}	break;
-				default:
-					break;
+							if(expected == func(input1, input2))
+								this->reactor_hack_success += 0.1f;
+
+							if(!rf.good()) {
+								std::cout << "error occurred at reading time!\n";
+							}
+						}
+						//!TEST_CASES
+
+						rf.close();
+					}	break;
+					default:
+						break;
 				}
 			}
-			void override() {
+			void hijack(int (*func)(wString)) {
+				switch(this->reactor_type) {
+					case _REACTOR_::R_DISCONNECTED:
+						std::cout << "Not connected!\n";
+						break;
+					case _REACTOR_::BUCKLAND_EX: {
+						std::ifstream rf("Reactor5.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
+						}
+						//TEST_CASES
+						//!TEST_CASES
+						rf.close();
+					}	break;
+				}
+			}
+			void hijack(bool (*func)(wString)) {
+				switch(this->reactor_type) {
+					case _REACTOR_::R_DISCONNECTED:
+						std::cout << "Not connected!\n";
+						break;
+					case _REACTOR_::JAMBO_v1_9: {
+						std::ifstream rf("Reactor11.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
+						}
+						//TEST_CASES
+						//!TEST_CASES
+						rf.close();
+					}	break;
+				}
+			}
+			void hijack(bool (*func)(wString, wString)) {
+				switch(this->reactor_type) {
+					case _REACTOR_::R_DISCONNECTED:
+						std::cout << "Not connected!\n";
+						break;
+					case _REACTOR_::CITADEL_v2_2B: {
+						std::ifstream rf("Reactor10.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
+						}
+						//TEST_CASES
+						//!TEST_CASES
+						rf.close();
+					}	break;
+				}
+			}
+ 			void override() {
 				std::cout << this->reactor_hack_success*100 << "%" << '\n';
 				{
 					// std::ofstream wf("example.json");

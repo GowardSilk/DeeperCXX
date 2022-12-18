@@ -6,6 +6,7 @@
 #include <ostream>
 #include <fstream>
 #include <string>
+#include <cmath>
 #include <vector>
 #include <functional>
 #include <type_traits>
@@ -112,6 +113,20 @@ triplet<wString> to_wString(triplet<int> tr) {
 }
 //!triplet
 
+struct std::hash<triplet<int>>
+{
+std::size_t operator()(const triplet<int>& tr) const
+{
+	// Compute individual hash values for first,
+	// second and third and combine them using XOR
+	// and bit shifting:
+
+	return ((std::hash<int>()(tr._triplet_unit_1)
+			^ (std::hash<int>()(tr._triplet_unit_2) << 1)) >> 1)
+			^ (std::hash<int>()(tr._triplet_unit_3) << 1);
+}
+  };
+
 template <typename T>
 class TripletContainer : public std::vector<triplet<T>> {
 	public:
@@ -121,6 +136,7 @@ class TripletContainer : public std::vector<triplet<T>> {
 		TripletContainer(std::initializer_list<triplet<T>> init_l) : std::vector<triplet<T>>(init_l) {} //preferred way
 		template<typename Iterator>
 		TripletContainer(Iterator first, Iterator last) : std::vector<triplet<T>>(first, last) {} //
+		TripletContainer(std::size_t sz) : std::vector<triplet<T>>(sz) {}
 		TripletContainer(std::size_t sz, triplet<T> val) : std::vector<triplet<T>>(sz, val) {} //
 		void push_back(triplet<T> tr) {
 			std::vector<triplet<T>>::push_back(tr);

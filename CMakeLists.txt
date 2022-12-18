@@ -15,4 +15,4 @@ else()
     add_compile_options(/permissive-)
 endif()
 
-add_executable(Runner "Example.cpp")
+add_executable(Runner "./algos/Image2.cpp")

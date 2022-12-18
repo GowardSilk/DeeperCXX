@@ -55,10 +55,19 @@ namespace wrd {
                 {
                 case wrd::JPEG::MRCH_2_2049:
                 //
+                    img = wrd::Image(Vector2sz(100, 100));
+                    for(std::size_t y = 0; y < img.getResolution().y; y++) {
+                        for(std::size_t x = 0; x < img.getResolution().x; x++) {
+                            if(x % 2 == 0)
+                                img.setPixel(Vector2u(x, y), wrd::Pixel(rand() % 255, rand() % 255, rand() % 255));
+                            else
+                                img.setPixel(Vector2u(x, y), wrd::Pixel(0, 0, 0));
+                        }
+                    }
                     break;
                 case wrd::JPEG::M_5_2049:
                 //
-                    img = wrd::Image(Vector2sz(2, 2));
+                    img = wrd::Image(Vector2sz(100, 100));
                     for(std::size_t y = 0; y < img.getResolution().y; y++) {
                         for(std::size_t x = 0; x < img.getResolution().x; x++) {
                             if(x % 2 == 0)
@@ -146,6 +155,9 @@ namespace wrd {
                         }
                     }
                     file.close();
+                }
+                else {
+                    std::cout << "kaslem ti mat \n";
                 }
                 return;
             }

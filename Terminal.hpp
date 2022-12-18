@@ -2,14 +2,17 @@
 #define TERMINAL_HPP
 
 #include "DeepMain.hpp"
-//#include "Shadow.hpp"
 
 template<typename T1, typename T2>
 class Shadow_prcl;
 
 namespace wrd {
 	enum class _TERMINAL_ {
-		T_DISCONNECTED, A_220, B, C, D, E
+		T_DISCONNECTED,
+        A_220,
+        B_236, B_301, B_524,
+        C_303, C_246, C_954, C_282,
+        D_702, D_443, D_230, D_990, D_102
 	};
 	class Terminal_prcl {
 		private:
@@ -64,7 +67,7 @@ namespace wrd {
 							break;
 						}
 						//
-						case _TERMINAL_::B:
+						case _TERMINAL_::B_236:
 						{	//
 							std::ifstream rf("Terminal2.dat", std::ios::out | std::ios::binary);
 							if(!rf) {
@@ -108,7 +111,7 @@ namespace wrd {
 							break;
 						}
 						//
-						case _TERMINAL_::C:
+						case _TERMINAL_::B_301:
 						{	//
 							std::ifstream rf("Terminal3.dat", std::ios::out | std::ios::binary);
 							if(!rf) {
@@ -138,6 +141,23 @@ namespace wrd {
 							rf.close();
 							break;
 						}
+						//
+						case _TERMINAL_::C_246:
+						{	//
+							std::ifstream rf("Terminal4.dat", std::ios::out | std::ios::binary);
+							if(!rf) {
+								std::cout << "cannot read file!\n";
+							}
+							rf.close();
+						}
+						case _TERMINAL_::D_230:
+						{	//
+							std::ifstream rf("Terminal11.dat", std::ios::out | std::ios::binary);
+							if(!rf) {
+								std::cout << "cannot read file!\n";
+							}
+							rf.close();
+						}
 						default:
 							std::cout << "No Terminal matches the arguments list!\n";
 							break;
@@ -152,7 +172,7 @@ namespace wrd {
 						std::cout << "not connected!\n";
 						exit(EXIT_FAILURE);
 						break;
-					case _TERMINAL_::D:
+					case _TERMINAL_::B_524:
 					{	//
 						std::ifstream rf("Terminal4.dat", std::ios::out | std::ios::binary);
 						if(!rf) {
@@ -195,7 +215,7 @@ namespace wrd {
 						std::cout << "not connected!\n";
 						exit(EXIT_FAILURE);
 						break;
-					case _TERMINAL_::E: {
+					case _TERMINAL_::C_303: {
 						std::ifstream rf("Terminal5.dat", std::ios::out | std::ios::binary);
 						if(!rf) {
 							std::cout << "cannot read file!\n";
@@ -222,8 +242,67 @@ namespace wrd {
 						//!TEST_CASES
 						rf.close();
 					}	break;
+					case _TERMINAL_::D_443: {
+						std::ifstream rf("Terminal10.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
+						}
+						//TEST_CASES
+						//!TEST_CASES
+						rf.close();
+					}	break;
 					default:
 						break;
+					}
+				}
+			}
+			void hijack(int (*func)(triplet<int>)) {
+				if(!is_shadowed){
+					switch (this->terminal_type) {
+						case _TERMINAL_::T_DISCONNECTED:
+							break;
+						case _TERMINAL_::C_954:
+						{	//
+							std::ifstream rf("Terminal7.dat", std::ios::out | std::ios::binary);
+							if(!rf) {
+								std::cout << "cannot read file!\n";
+							}
+							//TEST_CASES
+							//!TEST_CASES
+							rf.close();
+							break;
+						}
+						case _TERMINAL_::C_282:
+						{	//
+							std::ifstream rf("Terminal8.dat", std::ios::out | std::ios::binary);
+							if(!rf) {
+								std::cout << "cannot read file!\n";
+							}
+							//TEST_CASES
+							//!TEST_CASES
+							rf.close();
+							break;
+						}
+					}
+            	}
+			}
+			void hijack(bool (*func)(triplet<int>)) {
+				if(!is_shadowed) {
+					switch(this->terminal_type)
+					{
+						case _TERMINAL_::T_DISCONNECTED:
+							break;
+						case _TERMINAL_::D_702:
+						{	//
+							std::ifstream rf("Terminal9.dat", std::ios::out | std::ios::binary);
+							if(!rf) {
+								std::cout << "cannot read file!\n";
+							}
+							//TEST_CASES
+							//!TEST_CASES
+							rf.close();
+							break;
+						}
 					}
 				}
 			}
