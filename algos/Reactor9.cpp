@@ -3,7 +3,7 @@
 wString reactor_function(wString str) {
     wString new_str;
     for(const char& ch : str) {
-        if(ch < 48 && ch > 57) {
+        if(ch < 48 || ch > 57) {
             new_str.push_back(ch);
         }
     }

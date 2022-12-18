@@ -66,4 +66,7 @@ int main() {
         wf.write(reinterpret_cast<char*>(&expected_len), sizeof(int));
         wf.write(expected.c_str(), expected_len);
     }
+
+    wf.flush();
+    wf.close();
 }

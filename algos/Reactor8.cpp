@@ -4,10 +4,10 @@ bool contains(char& ch) {
     const char* punctuation = "!()-[]{};:'\",<>./?@#$%^&*_~";
     for(unsigned short i = 0; i < 28; i++) {
         if(punctuation[i] == ch) { 
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 wString reactor_function(wString str) {

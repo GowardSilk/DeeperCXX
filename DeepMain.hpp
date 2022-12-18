@@ -113,19 +113,20 @@ triplet<wString> to_wString(triplet<int> tr) {
 }
 //!triplet
 
-struct std::hash<triplet<int>>
-{
-std::size_t operator()(const triplet<int>& tr) const
-{
-	// Compute individual hash values for first,
-	// second and third and combine them using XOR
-	// and bit shifting:
+// template<class T>
+// struct std::hash
+// {
+// std::size_t operator()(const triplet<T>& tr) const
+// {
+// 	// Compute individual hash values for first,
+// 	// second and third and combine them using XOR
+// 	// and bit shifting:
 
-	return ((std::hash<int>()(tr._triplet_unit_1)
-			^ (std::hash<int>()(tr._triplet_unit_2) << 1)) >> 1)
-			^ (std::hash<int>()(tr._triplet_unit_3) << 1);
-}
-  };
+// 	return ((std::hash<triplet<T>>()(tr._triplet_unit_1)
+// 			^ (std::hash<triplet<T>>()(tr._triplet_unit_2) << 1)) >> 1)
+// 			^ (std::hash<triplet<T>>()(tr._triplet_unit_3) << 1);
+// }
+//   };
 
 template <typename T>
 class TripletContainer : public std::vector<triplet<T>> {

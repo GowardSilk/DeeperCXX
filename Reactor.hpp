@@ -2,6 +2,7 @@
 #define REACTOR_HPP
 
 #include "DeepMain.hpp"
+#include "Tester.hpp"
 // #include "json-develop/include/nlohmann/json.hpp"
 // using json = nlohmann::json;
 
@@ -50,100 +51,85 @@ namespace wrd {
 						std::cout << "not connected!\n";
 						break;
 					case _REACTOR_::IMPACT_v1_2A: {
-						std::ifstream rf("Reactor1.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-							exit(EXIT_FAILURE);
-						}
-
+						ReadIO reader("Reactor1.dat");
 						//TEST_CASES
 						for(unsigned i = 0; i < 10; i++) {
 							//input for T function
-							wString input = read(rf);
+							wString input;
+							reader.read_string(input);
 							//expected result
-							wString expected = read(rf);
+							wString expected;
+							reader.read_string(expected);
 
 							if(expected == func(input))
 								this->reactor_hack_success += 0.1f;
-
-							if(!rf.good()) {
-								std::cout << "error occurred at reading time!\n";
-							}
 						}
 						//!TEST_CASES
+						reader.close();
 					}	break;
 					case _REACTOR_::IMPACT_v0_9: {
-						std::ifstream rf("Reactor2.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
-
+						ReadIO reader("Reactor2.dat");
 						//TEST_CASES
 						for(unsigned i = 0; i < 10; i++) {
-							wString input = read(rf);
+							wString input;
+							reader.read_string(input);
 
-							wString expected = read(rf);
+							wString expected;
+							reader.read_string(expected);
 
 							if(expected == func(input))
 								this->reactor_hack_success += 0.1f;
-
-							if(!rf.good()) {
-								std::cout << "error occurred at reading time!\n";
-							}
 						}
 						//!TEST_CASES
-
-						rf.close();
+						reader.close();
 					}	break;
 					case _REACTOR_::COLOSSUS_v0_5: {
-						std::ifstream rf("Reactor4.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
-
+						ReadIO reader("Reactor4.dat");
 						//TEST_CASES
 						for(unsigned i = 0; i < 10; i++) {
-							wString input = read(rf);
+							wString input;
+							reader.read_string(input);
 
-							wString expected = read(rf);
+							wString expected;
+							reader.read_string(expected);
 
 							if(expected == func(input))
 								this->reactor_hack_success += 0.1f;
-
-							if(!rf.good()) {
-								std::cout << "error occurred at reading time!\n";
-							}
 						}
 						//!TEST_CASES
-
-						rf.close();
+						reader.close();
 					}	break;
 					case _REACTOR_::PLASIA_v0_2A: {
-						std::ifstream rf("Reactor8.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
+						ReadIO reader("Reactor8.dat");
 						//TEST_CASES
+						for(unsigned short i = 0; i < 10; i++) {
+							wString input, expected;
+							reader.read_string(input);
+							reader.read_string(expected);
+							if(func(input) == expected)
+								this->reactor_hack_success += 0.1f;
+						}
 						//!TEST_CASES
-						rf.close();
+						reader.close();
 					}	break;
 					case _REACTOR_::BEAMX_v093: {
-						std::ifstream rf("Reactor9.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
+						ReadIO reader("Reactor9.dat");
 						//TEST_CASES
+						for(unsigned short i = 0; i < 10; i++) {
+							wString input, expected;
+							reader.read_string(input);
+							reader.read_string(expected);
+							if(func(input) == expected)
+								this->reactor_hack_success += 0.1f;
+						}
 						//!TEST_CASES
-						rf.close();
+						reader.close();
 					}	break;
 					case _REACTOR_::PYRO_ULT: {
-						std::ifstream rf("Reactor11.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
+						ReadIO reader("Reactor11.dat");
 						//TEST_CASES
 						//!TEST_CASES
-						rf.close();
+						reader.close();
 					}	break;
 				}
 			}
@@ -155,30 +141,26 @@ namespace wrd {
 						break;
 					//R_TWINX 0012 beta
 					case _REACTOR_::TWINX_B: {
-						std::ifstream rf("Reactor3.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
-
+						ReadIO reader("Reactor3.dat");
 						//TEST_CASES
 						for(unsigned i = 0; i < 10; i++) {
-							sString s = {
-								.key = read(rf),
-								.value = read(rf)
-							};
+							wString key;
+							wString value;
+							reader.read_string(value);
+							reader.read_string(key);
 
-							wString expected = read(rf);
+							sString s = {
+								.key = key,
+								.value = value
+							};
+							wString expected;
+							reader.read_string(expected);
 
 							if(expected == func(s))
 								this->reactor_hack_success += 0.1f;
-
-							if(!rf.good()) {
-								std::cout << "error occurred at reading time!\n";
-							}
 						}
 						//!TEST_CASES
-
-						rf.close();
+						reader.close();
 					}	break;
 				}
 			}
@@ -189,27 +171,22 @@ namespace wrd {
 						std::cout << "not connected!\n";
 						break;
 					case _REACTOR_::MARSCHAL_v014: {
-						std::ifstream rf("Reactor5.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
+						ReadIO reader("Reactor5.dat");
 						//TEST_CASES
 						for(unsigned i = 0; i < 10; i++) {
-							wString input1 = read(rf);
+							wString input1;
+							reader.read_string(input1);
 							int input2;
-							rf.read((char *) &input2, sizeof(int));
-							wString expected = read(rf);
+							reader.read_int(input2);
+							wString expected;
+							reader.read_string(expected);
 
 							if(expected == func(input1, input2))
 								this->reactor_hack_success += 0.1f;
-
-							if(!rf.good()) {
-								std::cout << "error occurred at reading time!\n";
-							}
 						}
 						//!TEST_CASES
 
-						rf.close();
+						reader.close();
 					}	break;
 					default:
 						break;
@@ -221,13 +198,18 @@ namespace wrd {
 						std::cout << "Not connected!\n";
 						break;
 					case _REACTOR_::BUCKLAND_EX: {
-						std::ifstream rf("Reactor5.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
+						ReadIO reader("Reactor6.dat");
 						//TEST_CASES
+						for(unsigned short i = 0; i < 10; i++) {
+							wString input;
+							reader.read_string(input);
+							int expected;
+							reader.read_int(expected);
+							if(expected == func(input))
+								this->reactor_hack_success += 0.1f;
+						}
 						//!TEST_CASES
-						rf.close();
+						reader.close();
 					}	break;
 				}
 			}
@@ -237,13 +219,18 @@ namespace wrd {
 						std::cout << "Not connected!\n";
 						break;
 					case _REACTOR_::JAMBO_v1_9: {
-						std::ifstream rf("Reactor11.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
+						ReadIO reader("Reactor7.dat");
 						//TEST_CASES
+						for(unsigned short i = 0; i < 10; i++) {
+							wString input;
+							reader.read_string(input);
+							bool expected;
+							reader.read_bool(expected);
+							if(func(input) == expected)
+								this->reactor_hack_success += 0.1f;
+						}
 						//!TEST_CASES
-						rf.close();
+						reader.close();
 					}	break;
 				}
 			}
@@ -253,13 +240,10 @@ namespace wrd {
 						std::cout << "Not connected!\n";
 						break;
 					case _REACTOR_::CITADEL_v2_2B: {
-						std::ifstream rf("Reactor10.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
+						ReadIO reader("Reactor10.dat");
 						//TEST_CASES
 						//!TEST_CASES
-						rf.close();
+						reader.close();
 					}	break;
 				}
 			}
