@@ -16,4 +16,3 @@ else()
 endif()
 
 add_executable(Runner "Example.cpp")
-add_executable(Shadow "shadow.cpp")

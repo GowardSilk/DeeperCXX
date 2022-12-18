@@ -38,7 +38,7 @@ wString getRND(int length) {
 int getRND() {
     static std::random_device seeder;
     static std::mt19937 gen(seeder());
-    std::uniform_int_distribution<int> dis(0, 25);
+    std::uniform_int_distribution<int> dis(0, 100);
     return dis(gen);
 }
 

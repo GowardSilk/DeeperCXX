@@ -195,8 +195,33 @@ namespace wrd {
 						std::cout << "not connected!\n";
 						exit(EXIT_FAILURE);
 						break;
-					case _TERMINAL_::E:
-						break;
+					case _TERMINAL_::E: {
+						std::ifstream rf("Terminal5.dat", std::ios::out | std::ios::binary);
+						if(!rf) {
+							std::cout << "cannot read file!\n";
+						}
+						//TEST_CASES
+						for(unsigned i = 0; i < 10; i++) {
+							TripletContainer<int> input;
+							TripletContainer<int> expected;
+							for(unsigned i = 0; i < 15; i++) {
+								triplet<int> tr_temp;
+								rf.read((char*) &tr_temp, sizeof(triplet<int>));
+								input.push_back(tr_temp);
+							}
+							for(unsigned i = 0; i < 15; i++) {
+								triplet<int> tr_temp;
+								rf.read((char *) &tr_temp, sizeof(triplet<int>));
+								expected.push_back(tr_temp);
+							}
+							if(expected == func(input))
+								this->terminal_hack_success += 0.1f;
+							if(!rf.good()) 
+								std::cout << "error occurred at reading time!\n";
+						}
+						//!TEST_CASES
+						rf.close();
+					}	break;
 					default:
 						break;
 					}
