@@ -35,6 +35,7 @@ int main() {
                 ._triplet_unit_2 = getRND(1, 1000),
                 ._triplet_unit_3 = getRND(1, 1000)
             };
+            std::cout << tr << std::endl;
             input.push_back(tr);
             wf.write((char *) &tr, sizeof(triplet<int>));
         }

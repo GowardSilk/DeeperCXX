@@ -10,7 +10,7 @@ TripletContainer<int> terminal_function(TripletContainer<int> tr_con) {
 int main() {
 
     wrd::Terminal_prcl terminal;
-    terminal.connect(wrd::_TERMINAL_::E);
+    terminal.connect(wrd::_TERMINAL_::C_303);
     terminal.hijack(terminal_function);
     terminal.override();
 
