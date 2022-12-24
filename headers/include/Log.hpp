@@ -1,10 +1,18 @@
 #ifndef LOG_HPP
 #define LOG_HPP
 
+#include "DeepMain.hpp"
+
 namespace wrd {
 
     enum class TXT {
-        JNR_2_2049, FBR_20_2049, APRL_16_2049, APRL_25_2049
+        JNR_2_2049,
+        FBR_20_2049,
+        APRL_16_2049,
+        APRL_25_2049,
+        M_1_2049,
+        M_17_2049,
+        M_23_2049,
     };
 
     struct Message {
@@ -12,7 +20,6 @@ namespace wrd {
             //member data
             wString m_addressee;
             wString m_sender;
-            wString m_date;
             wString m_text;
         public:
             //get functions
@@ -21,9 +28,6 @@ namespace wrd {
             }
             wString getSender() {
                 return this->m_sender;
-            }
-            wString getDate() {
-                return this->m_date;
             }
             //!get functions
             //set functions

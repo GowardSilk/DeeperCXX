@@ -19,9 +19,11 @@ namespace wrd {
                 : m__test_cases(init_l) {}
             //functions
             void disconnect(wrd::Terminal_prcl& terminal) {
+                JSON_stream.write("is_shadowed", true);
                 terminal.is_shadowed = true;
             }
             void disconnect(wrd::Reactor_prcl& reactor) {
+                JSON_stream.write("is_shadowed", true);
                 reactor.is_shadowed = true;
             }
             //

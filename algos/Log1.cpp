@@ -1,4 +1,4 @@
-#include "../DEEP_EYE.hpp"
+#include <DEEP_EYE.hpp>
 
 int main() {
 

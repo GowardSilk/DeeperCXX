@@ -2,27 +2,37 @@
 #define DEEPMAIN_HPP
 
 //include paths
-#include <iostream>
-#include <ostream>
-#include <fstream>
-#include <string>
-#include <cmath>
-#include <vector>
-#include <functional>
-#include <type_traits>
-#include <unordered_map>
-#include <algorithm>
-#include <numeric>
-#include <array>
-#include <memory>
+//	STL
+	#include <iostream>
+	#include <ostream>
+	#include <fstream>
+	#include <iomanip>
+	#include <string>
+	#include <cmath>
+	#include <vector>
+	#include <functional>
+	#include <type_traits>
+	#include <unordered_map>
+	#include <algorithm>
+	#include <numeric>
+	#include <array>
+	#include <memory>
+//	CUSTOM
+	#include "json.hpp"
+	#include "Stream.hpp"
 //!include paths
+
+#ifndef STREAM
+#define STREAM
+inline Stream JSON_stream = Stream();
+#endif
 
 //definitions
 #define DEEPER 0 //main return value
 
+using json = nlohmann::json;
 using symbol = char; //symbol type for CodeMatrix
 using access_key = const char*; //access_key for logs -> DeepEye
-
 using wString = std::string; //weak string
 
 struct sString { //strong string
@@ -98,18 +108,18 @@ std::ostream& operator<<(std::ostream& out, const triplet<S>& tr) {
 	return out;
 }
 triplet<int> to_int(triplet<wString> tr) {
-	return (triplet<int>) { 
-		._triplet_unit_1 = std::stoi(tr._triplet_unit_1),
-		._triplet_unit_2 = std::stoi(tr._triplet_unit_2),
-		._triplet_unit_3 = std::stoi(tr._triplet_unit_3) 
-	};
+	return triplet<int>(
+		std::stoi(tr._triplet_unit_1),
+		std::stoi(tr._triplet_unit_2),
+		std::stoi(tr._triplet_unit_3)
+	);
 }
 triplet<wString> to_wString(triplet<int> tr) {
-	return (triplet<wString>) {
-		._triplet_unit_1 = std::to_string(tr._triplet_unit_1),
-		._triplet_unit_2 = std::to_string(tr._triplet_unit_2),
-		._triplet_unit_3 = std::to_string(tr._triplet_unit_3)
-	};
+	return triplet<wString>(
+		std::to_string(tr._triplet_unit_1),
+		std::to_string(tr._triplet_unit_2),
+		std::to_string(tr._triplet_unit_3)
+	);
 }
 //!triplet
 
