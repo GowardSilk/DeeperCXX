@@ -283,6 +283,8 @@ namespace wrd {
 							rf.close();
 							break;
 						}
+						default:
+							break;
 					}
             	}
 			}
@@ -303,20 +305,14 @@ namespace wrd {
 							rf.close();
 							break;
 						}
+						default:
+							break;
 					}
 				}
 			}
 			void override() {
 				if(!is_shadowed) {
 					JSON_stream.write("success", this->terminal_hack_success*100);
-					// json result = json::array();
-					// result.push_back({
-					// 	{ "success", this->terminal_hack_success*100 }
-					// });
-					// {
-					// 	std::ofstream f("test.json", std::ios_base::trunc | std::ios_base::out);
-					// 	f << result;
-					// }
 				}
 			}
 			void connect(wrd::_TERMINAL_ terminal) {

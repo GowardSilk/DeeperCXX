@@ -1,5 +1,12 @@
-#include "../Reactor.hpp"
+#include <Reactor.hpp>
 
+/// @defgroup [C2 sector] REACTOR
+/// \brief create an algorithm (via function)
+/// that takes string as param and returns
+/// all string of all characters upper-cased
+/// @param str consists of only lower-cased characters
+/// @return expected return type consits of upper-cases characters
+///
 int reactor_function(wString str) {
     const char vowels[5] = { 'a', 'e', 'i', 'o', 'u' };
     int final_count = 0;

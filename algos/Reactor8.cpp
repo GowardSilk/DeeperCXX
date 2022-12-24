@@ -1,4 +1,4 @@
-#include "../Reactor.hpp"
+#include <Reactor.hpp>
 
 bool contains(char& ch) {
     const char* punctuation = "!()-[]{};:'\",<>./?@#$%^&*_~";
@@ -10,6 +10,13 @@ bool contains(char& ch) {
     return false;
 }
 
+/// @defgroup [C4 sector] REACTOR
+/// \brief create an algorithm (via function)
+/// that takes string as param and returns
+/// all string of all characters upper-cased
+/// @param str consists of only lower-cased characters
+/// @return expected return type consits of upper-cases characters
+///
 wString reactor_function(wString str) {
     wString new_str;
     for(char ch : str) {

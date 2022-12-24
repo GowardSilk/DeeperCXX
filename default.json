@@ -1,0 +1,12 @@
+[
+    {
+        "is_shadowed" : false
+    },
+    {
+        "success" : null,
+        "errors" : null,
+        "log" : null,
+        "image" : null,
+        "footage" : null
+    }
+]

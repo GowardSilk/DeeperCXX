@@ -156,9 +156,6 @@ namespace wrd {
                     }
                     file.close();
                 }
-                else {
-                    std::cout << "kaslem ti mat \n";
-                }
                 return;
             }
             //  used to send log to the website

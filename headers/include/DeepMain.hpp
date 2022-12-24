@@ -56,9 +56,9 @@ struct triplet { //terminal triplet code
 	T _triplet_unit_3;
 public:
 	triplet() {
-		this->_triplet_unit_1;
-		this->_triplet_unit_2;
-		this->_triplet_unit_3;
+		this->_triplet_unit_1 = NULL;
+		this->_triplet_unit_2 = NULL;
+		this->_triplet_unit_3 = NULL;
 	}
 	triplet(T t1, T t2, T t3) {
 		this->_triplet_unit_1 = t1;
@@ -205,13 +205,11 @@ typedef Vector2<std::size_t> Vector2sz;
 typedef Vector2<float> Vector2f;
 
 class CodeMatrix {
+	private:
+		std::vector<std::vector<symbol>> CM_arr;
 	public:
 		//default constructor
-		CodeMatrix() {}
-		//costructs with already pre-installed _Set_
-		// CodeMatrix(std::uint8_t type) {
-		// 	install(type);
-		// }
+		CodeMatrix() = default;
 		//destructor
 		~CodeMatrix() {}
 		//functions
@@ -225,8 +223,6 @@ class CodeMatrix {
 		//known values
 		unsigned height = this->CM_arr.size();
 		unsigned width = this->CM_arr[0].size();
-	private:
-		std::vector<std::vector<symbol>> CM_arr;
 }; //!CodeMatrix
 
 //!definitions

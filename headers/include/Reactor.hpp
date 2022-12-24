@@ -28,17 +28,6 @@ namespace wrd {
 			//
 			template<typename T1, typename T2>
 			friend class Shadow_prcl;
-			wString read(std::ifstream& rf) {
-				wString s;
-				int len;
-				rf.read(reinterpret_cast<char *>(&len), sizeof(int));
-				char *buf = new char[len+1];
-				rf.read(buf, len);
-				buf[len] = '\0';
-				s = buf;
-				delete [] buf;
-				return s;
-			}
 		public:
 			//default constructor
 			Reactor_prcl() = default;
@@ -131,6 +120,8 @@ namespace wrd {
 						//!TEST_CASES
 						reader.close();
 					}	break;
+					default:
+						break;
 				}
 			}
 			void hijack(wString (*func)(sString)) {
@@ -162,6 +153,8 @@ namespace wrd {
 						//!TEST_CASES
 						reader.close();
 					}	break;
+					default:
+						break;
 				}
 			}
 			void hijack(wString (*func)(wString, int)) {
@@ -211,6 +204,8 @@ namespace wrd {
 						//!TEST_CASES
 						reader.close();
 					}	break;
+					default:
+						break;
 				}
 			}
 			void hijack(bool (*func)(wString)) {
@@ -232,6 +227,8 @@ namespace wrd {
 						//!TEST_CASES
 						reader.close();
 					}	break;
+					default:
+						break;
 				}
 			}
 			void hijack(bool (*func)(wString, wString)) {
@@ -245,23 +242,17 @@ namespace wrd {
 						//!TEST_CASES
 						reader.close();
 					}	break;
+					default:
+						break;
 				}
 			}
  			void override() {
-				std::cout << this->reactor_hack_success*100 << "%" << '\n';
-				{
-					// std::ofstream wf("example.json");
-					// json j = {
-					// 	{"errors", "erros"},
-					// 	{"warnings", "warnings"}
-					// };
-					// wf << j;
+				if(!is_shadowed) {
+					JSON_stream.write("success", this->reactor_hack_success*100);
 				}
-				return ;
 			}
 			void connect(wrd::_REACTOR_ rt) {
 				this->reactor_type = rt;
-				return ;
 			}
 	};
 } //!namespace Warden

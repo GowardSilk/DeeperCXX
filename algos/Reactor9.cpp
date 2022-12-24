@@ -1,5 +1,12 @@
-#include "../Reactor.hpp"
+#include <Reactor.hpp>
 
+/// @defgroup [D1 sector] REACTOR
+/// \brief create an algorithm (via function)
+/// that takes string as param and returns
+/// all string of all characters upper-cased
+/// @param str consists of only lower-cased characters
+/// @return expected return type consits of upper-cases characters
+///
 wString reactor_function(wString str) {
     wString new_str;
     for(const char& ch : str) {

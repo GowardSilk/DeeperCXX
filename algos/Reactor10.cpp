@@ -1,4 +1,4 @@
-#include "../Reactor.hpp"
+#include <Reactor.hpp>
 
 bool reactor_function(wString str1, wString str2) {
     

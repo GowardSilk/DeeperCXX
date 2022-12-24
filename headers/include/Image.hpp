@@ -28,11 +28,11 @@ namespace wrd {
         public:
             //default constructor
             Pixel() {
-                this->rgb = (triplet<int>){
-                    ._triplet_unit_1 = 0,
-                    ._triplet_unit_2 = 0,
-                    ._triplet_unit_3 = 0
-                };
+                this->rgb = triplet<int>(
+                    /*._triplet_unit_1*/ 0,
+                    /*._triplet_unit_1*/ 0,
+                    /*._triplet_unit_1*/ 0
+                );
                 this->alpha = 255;
             }
             //constructor
@@ -77,11 +77,11 @@ namespace wrd {
                 this->alpha = alpha;
             }
             void setRGB(int r, int g, int b) {
-                this->rgb = (triplet<int>) {
-                    ._triplet_unit_1 = r,
-                    ._triplet_unit_2 = g,
-                    ._triplet_unit_3 = b
-                };
+                this->rgb = triplet<int>(
+                    /*._triplet_unit_1*/ r,
+                    /*._triplet_unit_1*/ g,
+                    /*._triplet_unit_1*/ b
+                );
             }
             void setRGB(triplet<int> rgb) {
                 this->rgb = rgb;
@@ -103,8 +103,8 @@ namespace wrd {
             }
             RGBA getRGBA() {
                 struct RGBA con = {
-                    rgb = this->rgb,
-                    alpha = this->alpha
+                    .rgb = this->rgb,
+                    .alpha = this->alpha
                 };
                 return con;
             }
