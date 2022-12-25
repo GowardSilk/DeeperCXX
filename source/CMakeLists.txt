@@ -5,6 +5,7 @@ cmake_minimum_required (VERSION 3.25.1)
 project ("DeeperCXX")
 
 #-------------------------EXT_PACKAGES------------------------
+#   DOXYGEN
 find_package(DOXYGEN)
 if (DOXYGEN_FOUND)
     # set input and output files
@@ -24,6 +25,7 @@ if (DOXYGEN_FOUND)
 else (DOXYGEN_FOUND)
   message("Doxygen need to be installed to generate the doxygen documentation")
 endif (DOXYGEN_FOUND)
+#   DOXYGEN
 #------------------------!EXT_PACKAGES------------------------
 
 #--------------------------VARIABLES--------------------------

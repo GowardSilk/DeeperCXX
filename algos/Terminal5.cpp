@@ -1,4 +1,4 @@
-#include "../Terminal.hpp"
+#include <Terminal.hpp>
 
 TripletContainer<int> terminal_function(TripletContainer<int> tr_con) {
     std::sort(std::begin(tr_con), std::end(tr_con), [](triplet<int>& tr1, triplet<int>& tr2){

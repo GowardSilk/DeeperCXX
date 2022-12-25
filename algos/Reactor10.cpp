@@ -1,7 +1,7 @@
 #include <Reactor.hpp>
 
 bool reactor_function(wString str1, wString str2) {
-    
+    return false;
 }
 
 int main() {

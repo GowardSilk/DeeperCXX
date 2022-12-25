@@ -139,7 +139,6 @@ namespace wrd {
 							wString value;
 							reader.read_string(value);
 							reader.read_string(key);
-
 							sString s = {
 								.key = key,
 								.value = value
