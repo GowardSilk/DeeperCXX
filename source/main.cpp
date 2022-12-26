@@ -1,20 +1,22 @@
-#include <Terminal.hpp>
-#include <Shadow.hpp>
-
-triplet<int> terminal_function(triplet<int> tr) {
-    return triplet<int>(
-        tr._triplet_unit_3,
-        tr._triplet_unit_2,
-        tr._triplet_unit_1
-    );
-}
+#include <DEEP_EYE.hpp>
 
 int main() {
-
-    wrd::Terminal_prcl terminal;    
-    terminal.connect(wrd::_TERMINAL_::A_220);
-    terminal.hijack(terminal_function);
-    terminal.override();
+    
+    wrd::Log log;
+    wrd::DeepEye::LOG_extract(log, wrd::TXT::JNR_2_2049);
+    wrd::Message msg = log.getMessage();
+    std::string num, expec, encoded = msg.getText();
+    for(unsigned i = 0; i < encoded.length(); i++) {
+        if(encoded.at(i) != ';')
+            num.push_back(encoded.at(i));
+        else {
+            expec.push_back(
+                log.getCodeMatrix().at(std::stoi(num))
+            );
+            num.erase();
+        }
+    }
+    std::cout << "[EXPEC]:" << expec << std::endl;
 
     std::cin.get();
 }

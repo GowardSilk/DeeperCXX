@@ -4,6 +4,7 @@
 #include "Image.hpp"
 #include "Log.hpp"
 #include "Footage.hpp"
+#include "LogGen.hpp"
 
 typedef unsigned char uchar_t;
 typedef unsigned int uint32_t;
@@ -16,37 +17,35 @@ const int MAX_RGB=255;
 const int BMP_MAGIC_ID=2;
 
 namespace wrd {
-
-    struct bmpfile_magic
-    {
-        uchar_t magic[BMP_MAGIC_ID];
-    };
-
-    struct bmpfile_header
-    {
-        uint32_t file_size;
-        uint16_t creator1;
-        uint16_t creator2;
-        uint32_t bmp_offset;
-    };
-
-    struct bmpfile_dib_info
-    {
-        uint32_t header_size;
-        int32_t width;
-        int32_t height;
-        uint16_t num_planes;
-        uint16_t bits_per_pixel;
-        uint32_t compression;
-        uint32_t bmp_byte_size;
-        int32_t hres;
-        int32_t vres;
-        uint32_t num_colors;
-        uint32_t num_important_colors;
-    };
-
     class DeepEye {
         private:
+            struct bmpfile_magic
+            {
+                uchar_t magic[BMP_MAGIC_ID];
+            };
+
+            struct bmpfile_header
+            {
+                uint32_t file_size;
+                uint16_t creator1;
+                uint16_t creator2;
+                uint32_t bmp_offset;
+            };
+
+            struct bmpfile_dib_info
+            {
+                uint32_t header_size;
+                int32_t width;
+                int32_t height;
+                uint16_t num_planes;
+                uint16_t bits_per_pixel;
+                uint32_t compression;
+                uint32_t bmp_byte_size;
+                int32_t hres;
+                int32_t vres;
+                uint32_t num_colors;
+                uint32_t num_important_colors;
+            };
         public:
             //download functions
             //  used to "download" image preset
@@ -97,11 +96,14 @@ namespace wrd {
             }
             //  used to "extract" log
             static void LOG_extract(wrd::Log& log, wrd::TXT log_name) {
+                const std::string str = "Hello Carl! I see you have successfully finished all the tests and made it here! Hopefully you will learn fast. Just do what they tell  you to do and everything will be okay!! I know this may sound silly, but dont ask too many questions, they dont like it. I cannot wait until you come down here... I mean DEEPER right?";
+                LogGen lg;
                 switch (log_name)
                 {
                 case wrd::TXT::JNR_2_2049:
+                    lg = LogGen(str, true, true);
+                    log = lg.log_parse();
                     break;
-                
                 default:
                     break;
                 }
@@ -114,17 +116,17 @@ namespace wrd {
                 std::ofstream file("test.bmp", std::ios::out | std::ios::binary);
 
                 if(file.is_open()) {
-                    wrd::bmpfile_magic magic;
+                    bmpfile_magic magic;
                     magic.magic[0] = 'B';
                     magic.magic[1] = 'M';
                     file.write((char*)(&magic), sizeof(magic));
 
-                    wrd::bmpfile_header header = { 0 };
+                    bmpfile_header header = { 0 };
                     header.bmp_offset = sizeof(bmpfile_magic) + sizeof(bmpfile_header) + sizeof(bmpfile_dib_info);
                     header.file_size = header.bmp_offset + (img.getResolution().y * 3 + img.getResolution().x % 4) * img.getResolution().y;
                     file.write((char*)(&header), sizeof(header));
 
-                    wrd::bmpfile_dib_info dib_info = { 0 };
+                    bmpfile_dib_info dib_info = { 0 };
                     dib_info.header_size = sizeof(bmpfile_dib_info);
                     dib_info.width = img.getResolution().x;
                     dib_info.height = img.getResolution().y;

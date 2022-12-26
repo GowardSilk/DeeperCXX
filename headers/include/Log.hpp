@@ -29,6 +29,9 @@ namespace wrd {
             wString getSender() {
                 return this->m_sender;
             }
+            wString getText() {
+                return this->m_text;
+            }
             //!get functions
             //set functions
             void setText(wString& text) {
@@ -41,7 +44,7 @@ namespace wrd {
         private:
             //member data
             Message m_msg;
-            CodeMatrix m_letter_map;
+            std::vector<symbol> m_letter_map;
             //!member data
         public:
             //constructors
@@ -50,13 +53,16 @@ namespace wrd {
             //destructor
             ~Log() {}
             //get functions
-            CodeMatrix getCodeMatrix() {
+            std::vector<symbol> getCodeMatrix() {
                 return this->m_letter_map;   
             }
             Message& getMessage() {
                 return this->m_msg;
             }
             //!get functions
+            void setLetterMap(std::vector<symbol>& lm) {
+                m_letter_map = lm;
+            }
     };
 }
 

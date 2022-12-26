@@ -41,62 +41,65 @@ set(CMAKE_BUILD_TYPE Release)
 set(CUSTOM_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../headers/include)
 set(CUSTOM_SRC_ALGOS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../algos)
 set(CUSTOM_BIN_ALGOS_DIR ${CMAKE_CURRENT_BINARY_DIR}/../algos)
-set(LIST_ALGOS_LOGS 
-        Log1 
-        Log2 
-        Log3 
-        Log4 
-        Log5 
-        Log6 
-        Log7 
-        Log8
-    )
-foreach(i IN LISTS LIST_ALGOS_LOGS)
-    list (
-        APPEND add_custom_target_args
-        COMMAND $<TARGET_FILE:${i}>
-        RUNTIME_OUTPUT_DIRECTORY ${CUSTOM_SRC_ALGOS_DIR}
-    )
-    add_executable(
-        ${i} #Log[i]
-        ${CUSTOM_SRC_ALGOS_DIR}/${i}.cpp #Log[i].cpp
-    )
-    set_target_properties(
-        ${i}
-        PROPERTIES LINKER_LANGUAGE CXX
-        RUNTIME_OUTPUT_DIRECTORY ${CUSTOM_BIN_ALGOS_DIR}
-    )
-    target_link_libraries(${i} DEEP_LIB)
-endforeach()
-set(LIST_ALGOS_REACTOR 
-        Reactor1 
-        Reactor2
-        Reactor3
-        Reactor4
-        Reactor5
-        Reactor6
-        Reactor7
-        Reactor8
-        Reactor9
-        Reactor10
-    )
-foreach(i IN LISTS LIST_ALGOS_REACTOR)
-    list (
-        APPEND add_custom_target_args
-        COMMAND $<TARGET_FILE:${i}>
-        RUNTIME_OUTPUT_DIRECTORY ${CUSTOM_SRC_ALGOS_DIR}
-    )
-    add_executable(
-        ${i} #Log[i]
-        ${CUSTOM_SRC_ALGOS_DIR}/${i}.cpp #Log[i].cpp
-    )
-    set_target_properties(
-        ${i}
-        PROPERTIES LINKER_LANGUAGE CXX
-        RUNTIME_OUTPUT_DIRECTORY ${CUSTOM_BIN_ALGOS_DIR}
-    )
-    target_link_libraries(${i} DEEP_LIB)
-endforeach()
+set(COMPILE_CHALLENGES FALSE) #set this var to true, if you want to recompile challenges
+if(COMPILE_CHALLENGES)
+    set(LIST_ALGOS_LOGS 
+            Log1 
+            Log2 
+            Log3 
+            Log4 
+            Log5 
+            Log6 
+            Log7 
+            Log8
+        )
+    foreach(i IN LISTS LIST_ALGOS_LOGS)
+        list (
+            APPEND add_custom_target_args
+            COMMAND $<TARGET_FILE:${i}>
+            RUNTIME_OUTPUT_DIRECTORY ${CUSTOM_SRC_ALGOS_DIR}
+        )
+        add_executable(
+            ${i} #Log[i]
+            ${CUSTOM_SRC_ALGOS_DIR}/${i}.cpp #Log[i].cpp
+        )
+        set_target_properties(
+            ${i}
+            PROPERTIES LINKER_LANGUAGE CXX
+            RUNTIME_OUTPUT_DIRECTORY ${CUSTOM_BIN_ALGOS_DIR}
+        )
+        target_link_libraries(${i} DEEP_LIB)
+    endforeach()
+    set(LIST_ALGOS_REACTOR 
+            Reactor1 
+            Reactor2
+            Reactor3
+            Reactor4
+            Reactor5
+            Reactor6
+            Reactor7
+            Reactor8
+            Reactor9
+            Reactor10
+        )
+    foreach(i IN LISTS LIST_ALGOS_REACTOR)
+        list (
+            APPEND add_custom_target_args
+            COMMAND $<TARGET_FILE:${i}>
+            RUNTIME_OUTPUT_DIRECTORY ${CUSTOM_SRC_ALGOS_DIR}
+        )
+        add_executable(
+            ${i} #Log[i]
+            ${CUSTOM_SRC_ALGOS_DIR}/${i}.cpp #Log[i].cpp
+        )
+        set_target_properties(
+            ${i}
+            PROPERTIES LINKER_LANGUAGE CXX
+            RUNTIME_OUTPUT_DIRECTORY ${CUSTOM_BIN_ALGOS_DIR}
+        )
+        target_link_libraries(${i} DEEP_LIB)
+    endforeach()
+endif()
 add_executable(Main main.cpp)
 set_target_properties(Main PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/source)
 target_link_libraries(Main DEEP_LIB)
@@ -121,4 +124,4 @@ add_custom_target(LIST_ALGOS_LOGS
 #     $<INSTALL_INTERFACE:headers>
 # )
 
-#exec_program(Main ${CMAKE_CURRENT_BINARY_DIR}/source)
+exec_program(Main ${CMAKE_CURRENT_BINARY_DIR}/source)
