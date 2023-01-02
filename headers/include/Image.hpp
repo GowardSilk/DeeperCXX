@@ -13,7 +13,7 @@ namespace wrd {
     };
 
     enum class Color {
-        BLACK, WHITE, RED, GREEN, BLUE
+        BLACK, WHITE, RED, GREEN, BLUE, YELLOW
     };
 
     enum class JPEG {
@@ -59,6 +59,9 @@ namespace wrd {
                 case Color::BLUE:
                     setRGBA(0, 0, 255);
                     break;
+                case Color::YELLOW:
+                    setRGB(255, 255, 0);
+                    break;
                 }
             } 
             //constructor
@@ -103,6 +106,9 @@ namespace wrd {
                     break;
                 case Color::BLUE:
                     setRGB(0, 0, 255);
+                    break;
+                case Color::YELLOW:
+                    setRGB(255, 255, 0);
                     break;
                 }
             }
