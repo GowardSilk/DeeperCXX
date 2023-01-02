@@ -19,7 +19,7 @@ int main() {
     const std::string addressee = "Violet Woods A";
     const std::string writer = "Isabella Kaltenbach A";
     std::cout << to_hex(text) << std::endl;
-    LogGen lg(text);
+    LogGen lg(text, addressee, writer);
     lg.gen_cm_arr(text);
     lg.encode();
 

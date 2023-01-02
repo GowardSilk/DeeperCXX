@@ -1,23 +1,13 @@
 #include <DEEP_EYE.hpp>
 
+void image_function(wrd::Image& img) {
+    
+}
+
 int main() {
 
-    //create blank image
     wrd::Image img;
-    
-    //retrieve image from Deep Eye
-    wrd::DeepEye::IMG_download(img, wrd::JPEG::MRCH_2_2049);
+    imgstream::read(img, "circle1.bmp");
+    imgstream::render(img, "Image1.bmp");
 
-    //"BLACK BOX"
-    for(std::size_t y = 0; y < img.getResolution().y; y++) {
-        for(std::size_t x = 0; x < img.getResolution().x; x++) {
-            wrd::Pixel pxl = img.getPixel(Vector2u(x, y));
-            img.setPixel(Vector2u(x, y), pxl);
-        }
-    }
-
-    //test
-    wrd::DeepEye::render(img);
-
-    return DEEPER;
 }

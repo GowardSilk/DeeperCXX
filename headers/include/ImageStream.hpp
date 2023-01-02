@@ -113,6 +113,10 @@ namespace imgstream {
             "vres: " << dib_info.vres  << "\n" <<
             "num_colors: " << dib_info.num_colors << "\n" <<
             "num_important_colors: " << dib_info.num_important_colors << "\n";
+        if(dib_info.compression != 0) {
+            std::cout << "Cannot read compressed img!";
+            exit(1);
+        }
         file.seekg(header.bmp_offset);
 
         //initialize image for specific width/height

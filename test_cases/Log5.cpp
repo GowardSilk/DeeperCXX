@@ -27,7 +27,7 @@ int main() {
     const std::string addressee = "Isabella Kaltenbach A";
     const std::string writer = "Jacob Woods B";
     text = to_ROT_13(text);
-    LogGen lg(text);
+    LogGen lg(text, addressee, writer);
     lg.gen_cm_arr(text);
     lg.encode();
 

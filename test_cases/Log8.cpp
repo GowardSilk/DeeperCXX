@@ -39,7 +39,7 @@ int main() {
     const std::string addressee = "";
     const std::string writer = "";
     std::cout << to_uu_encoding(text) << std::endl;
-    LogGen lg(text);
+    LogGen lg(text, addressee, writer);
     lg.gen_cm_arr(text);
     lg.encode();
 

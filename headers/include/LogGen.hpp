@@ -32,6 +32,8 @@ class LogGen {
 		//member data
 		std::string m_encoded_text;
 		std::string m_decoded_text;
+		std::string m_addressee;
+		std::string m_writer;
 		std::vector<char> m_cm_arr;
 		std::unordered_set<char> m_set;
 		//!member data
@@ -40,8 +42,13 @@ class LogGen {
 		LogGen(std::string& text_to_encode) 
 			: m_encoded_text(),
 			  m_decoded_text(text_to_encode)
-		{
-		}
+		{}
+		LogGen(std::string& text_to_encode, std::string adrs, std::string wrtr)
+			: m_encoded_text(),
+			  m_decoded_text(text_to_encode),
+			  m_addressee(adrs),
+			  m_writer(wrtr)
+		{}
 		//!constructor
 		void gen_cm_arr(std::string& str) {
 			//save all characters in m_text (once)
@@ -118,6 +125,10 @@ class LogGen {
 			}
 			//write m_encoded_text
 			writer.write_string(m_encoded_text);
+			//write addressee
+			writer.write_string(m_addressee);
+			//write writer
+			writer.write_string(m_writer);
 			//write size of vector
 			writer.write_int(m_cm_arr.size());
 			//char by char
@@ -128,10 +139,13 @@ class LogGen {
 		}
 		void read(const char* fileDest, wrd::Log& log) {
 			ReadIO reader(fileDest);
-			std::string e_text;
+			std::string e_text, adrs, wrtr;
 			//read m_encoded_text
 			reader.read_string(e_text);
-			log.setText(e_text);
+			//read addressee
+			reader.read_string(adrs);
+			//read writer
+			reader.read_string(wrtr);
 			//read size of vector
 			int size;
 			reader.read_int(size);
@@ -141,7 +155,7 @@ class LogGen {
 				reader.read_char(c);
 				v.push_back(c);
 			}
-			log.setLetterMap(v);
+			log = wrd::Log(v, adrs, wrtr, e_text);
 		}
 };
 

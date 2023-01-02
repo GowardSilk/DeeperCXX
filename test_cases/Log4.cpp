@@ -27,7 +27,7 @@ int main() {
     std::string text = "WHAT DO YOU THINK YOU ARE DOING ?! ARE YOU COMPLETELY OUT OF YOUR MIND? WHAT HAVE YOU BEEN THINKING? I KNOW YOU ARE READING THIS MESSAGE. I KNOW WHERE YOU ARE. THEY KNOW... MIKE DONT MAKE THIS HARDER FOR YOURSELF...";
     const std::string addressee = "Mike Smith D";
     const std::string writer = "Mark White D";
-    LogGen lg(text);
+    LogGen lg(text, addressee, writer);
     lg.gen_cm_arr_custom(text, encoding_algo);
     lg.encode_custom(true, next_valid);
 

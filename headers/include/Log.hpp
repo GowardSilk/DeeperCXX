@@ -27,6 +27,14 @@ namespace wrd {
             //constructors
             //  default
             Log() = default;
+            //constructor
+            //  LogGen
+            Log(std::vector<symbol> cm, wString adrs, wString wrtr, wString text)
+                : m_letter_map(cm),
+                  m_addressee(adrs),
+                  m_sender(wrtr),
+                  m_text(text)
+            {}
             //destructor
             ~Log() {}
             //get functions
@@ -46,9 +54,6 @@ namespace wrd {
             //set functions
             void setText(wString& text) {
                 this->m_text = text;
-            }
-            void setLetterMap(CodeMatrix lm) {
-                m_letter_map = lm;
             }
             //!set functions
     };

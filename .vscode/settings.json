@@ -122,5 +122,5 @@
     "**/.vscode/**"
   ],
   "C_Cpp.errorSquiggles": "Enabled",
-  "cmake.sourceDirectory": "${workspaceFolder}/headers/json-develop"
+  "cmake.sourceDirectory": "${workspaceFolder}/source"
 }
