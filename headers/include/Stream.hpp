@@ -18,11 +18,15 @@ const json DEFAULT_JSON_USR = {
 
 class Stream {
     private:
-        std::fstream fs;
+        void refresh() {
+            fs = std::ofstream("x.json", std::ios_base::trunc | std::ios_base::in);
+            fs << jfile;
+        }
+        std::ofstream fs;
         json jfile;
     public:
         Stream() {
-            fs = std::fstream("default.json", std::ios_base::trunc | std::ios_base::in);
+            fs = std::ofstream("x.json", std::ios_base::trunc | std::ios_base::in);
             jfile = DEFAULT_JSON_USR;
             fs << jfile;
         }
@@ -34,7 +38,7 @@ class Stream {
             try
             {
                 jfile[1][json_prop] = value_to_write;
-                fs << jfile;
+                refresh();
             }
             catch(const std::exception& e)
             {
@@ -43,6 +47,6 @@ class Stream {
         }
         void call_disconnect(bool b) {
             jfile[0]["is_shadowed"] = b;
-            fs << jfile;
+            refresh();
         }
 };

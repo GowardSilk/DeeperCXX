@@ -1,11 +1,11 @@
 #ifndef DEEPMAIN_HPP
 #define DEEPMAIN_HPP
 
+// #define _HAS_AUTO_PTR_ETC 1 //https://stackoverflow.com/questions/48882439/how-to-restore-auto-ptr-in-visual-studio-c17
+
 //include paths
 //	STL
 	#include <iostream>
-	#include <ostream>
-	#include <fstream>
 	#include <iomanip>
 	#include <string>
 	#include <cmath>
@@ -13,12 +13,15 @@
 	#include <functional>
 	#include <type_traits>
 	#include <unordered_map>
+	#include <unordered_set>
 	#include <algorithm>
 	#include <numeric>
 	#include <array>
 	#include <memory>
+	#include <iterator>
+	#include <cstddef>
+	#include <execution>
 //	CUSTOM
-	#include "json.hpp"
 	#include "Stream.hpp"
 //!include paths
 
@@ -206,23 +209,17 @@ typedef Vector2<float> Vector2f;
 
 class CodeMatrix {
 	private:
-		std::vector<std::vector<symbol>> CM_arr;
+		std::vector<symbol> cm_arr;
 	public:
 		//default constructor
 		CodeMatrix() = default;
+		CodeMatrix(std::vector<symbol> v) : cm_arr(v) {}
 		//destructor
 		~CodeMatrix() {}
 		//functions
-		//void install(std::uint8_t type) {}
-		symbol get_symbol(Vector2u pos) {
-			return CM_arr[pos.y][pos.x];
-		}
-		symbol get_symbol(unsigned x, unsigned y) {
-			return CM_arr[y][x];
-		}
-		//known values
-		unsigned height = this->CM_arr.size();
-		unsigned width = this->CM_arr[0].size();
+		symbol get_symbol(unsigned pos) { return cm_arr.at(pos); }
+		unsigned get_size() { return cm_arr.size(); }
+		void push(symbol s) { cm_arr.push_back(s); }
 }; //!CodeMatrix
 
 //!definitions

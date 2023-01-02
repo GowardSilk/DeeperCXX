@@ -3,8 +3,6 @@
 
 #include "DeepMain.hpp"
 #include "Tester.hpp"
-// #include "json-develop/include/nlohmann/json.hpp"
-// using json = nlohmann::json;
 
 template<typename T1, typename T2>
 class Shadow;

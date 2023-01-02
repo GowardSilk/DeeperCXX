@@ -1,20 +1,7 @@
 #include <DEEP_EYE.hpp>
 
-bool is_prime(int val) {
-    //corner cases
-    if(val <= 1)
-        return false;
-    if(val <= 3)
-        return true;
-    if(val % 2 == 0 || val % 3 == 0)
-        return false;
-
-    //6k +- 1
-    for(int i = 5; i*i <= val; i += 6) {
-        if(val % i == 0 || val % (i+2) == 0)
-            return false;
-    }
-    return true;
+bool encoding_algo(int val) {
+    return val % 2 == 0;
 }
 
 int main() {
@@ -27,17 +14,21 @@ int main() {
 
     //"BLACK BOX"
     CodeMatrix letter_map = log.getCodeMatrix();
-    wrd::Message msg = log.getMessage();
-
-    wString text;
-    for(unsigned y = 0; y < letter_map.height; y++) {
-        for(unsigned x = 0; x < letter_map.width; x++) {
-            if(is_prime(x))
-                text.push_back(letter_map.get_symbol(Vector2u(x, y)));
+    wString text = log.getText(), final, num;
+    for (int i = 0; i < text.length(); i++)
+    {
+        if(text[i] != ';') {
+            num += text[i];
+        }
+        else {
+            int n = std::stoi(num);
+            if(encoding_algo(n)) {
+                final.push_back(letter_map.get_symbol(n));
+            }
+            num.erase();
         }
     }
-
-    msg.setText(text);
+    log.setText(final);
 
     //test
     wrd::DeepEye::read(log);

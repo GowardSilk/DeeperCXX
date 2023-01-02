@@ -4,10 +4,62 @@
 #include "Image.hpp"
 
 namespace wrd {
+
+    enum class FTG {
+        DEC_14_2049
+    };
+
     class Footage {
         private:
+            //member_data
             std::vector<Image> img_container;
             std::size_t time_duration;
+            //!member data
+        public:
+        #pragma region ITERATOR
+            //member data
+            struct Iterator
+            {
+                //iterator tags
+                using iterator_category = std::forward_iterator_tag;
+                using difference_type   = std::ptrdiff_t;
+
+                //PIXEL VECTOR height pointer
+                using value_type     = Image;
+                using pointer        = value_type*; //Image*
+                using reference      = value_type&; //Image&
+
+                //constructor
+                Iterator(pointer _ptr) 
+                    : m_ptr(_ptr) {}
+                //!constructor
+
+                //supporting all necessary operations
+                //for forward iterator
+                //operators
+                reference operator*() const { return *m_ptr; }
+                pointer operator->() { return m_ptr; }
+                Iterator& operator++() { m_ptr++; return *this; }
+                Iterator operator++(int) { 
+                    Iterator tmp = *this;
+                    ++(*this);
+                    return tmp;
+                }
+                bool operator==(const Iterator& it) {
+                    return m_ptr == it.m_ptr;
+                }
+                bool operator!=(const Iterator& it) {
+                    return m_ptr != it.m_ptr;
+                }
+                //!operators
+
+                private:
+                    pointer m_ptr;
+            };
+            //!member data
+            Iterator begin() { return Iterator(&img_container[0]); }
+            Iterator end() { return Iterator(&img_container[img_container.size()-1]); }
+        #pragma endregion //!ITERATOR
         public:
             //constructors
             Footage() { //default

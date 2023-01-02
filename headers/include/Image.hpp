@@ -86,6 +86,26 @@ namespace wrd {
             void setRGB(triplet<int> rgb) {
                 this->rgb = rgb;
             }
+            void setRGB(wrd::Color clr) {
+                switch (clr)
+                {
+                case Color::BLACK:
+                    setRGB(0, 0, 0);
+                    break;
+                case Color::WHITE:
+                    setRGB(255, 255, 255);
+                    break;
+                case Color::RED:
+                    setRGB(255, 0, 0);
+                    break;
+                case Color::GREEN:
+                    setRGB(0, 255, 0);
+                    break;
+                case Color::BLUE:
+                    setRGB(0, 0, 255);
+                    break;
+                }
+            }
             void setRGBA(int r, int g, int b, int alpha = 255) {
                 setRGB(r, g, b);
                 this->alpha = alpha;
@@ -109,11 +129,61 @@ namespace wrd {
                 return con;
             }
     }; //!Pixel
+
     class Image {
         private:
             //member data
             Vector2sz resolution;
             PIXEL_VECTOR pixel_container;
+        public:
+            //member data
+            struct Iterator 
+            {
+                //iterator tags
+                using iterator_category = std::forward_iterator_tag;
+                using difference_type   = std::ptrdiff_t;
+
+                //PIXEL VECTOR height pointer
+                using _H_value_type     = std::vector<Pixel>;
+                using _H_pointer        = _H_value_type*; //std::vector<Pixel>*
+                using _H_reference      = _H_value_type&; //std::vector<Pixel>&
+
+                //PIXEL VECTOR width pointer
+                // using _W_value_type     = Pixel;
+                // using _W_pointer        = _W_value_type*; //Pixel*
+                // using _W_reference      = _W_value_type&; //Pixel&
+                //!iterator tags
+
+                //constructor
+                Iterator(_H_pointer h_ptr /*_W_pointer w_ptr*/) 
+                    : m_H_ptr(h_ptr) {}
+                      /*m_W_ptr(w_ptr)*/
+                //!constructor
+
+                //supporting all necessary operations
+                //for forward iterator
+                //operators
+                _H_reference operator*() const { return *m_H_ptr; }
+                _H_pointer operator->() { return m_H_ptr; }
+                Iterator& operator++() { m_H_ptr++; return *this; }
+                Iterator operator++(int) { 
+                    Iterator tmp = *this;
+                    ++(*this);
+                    return tmp;
+                }
+                bool operator==(const Iterator& it) {
+                    return m_H_ptr == it.m_H_ptr;
+                }
+                bool operator!=(const Iterator& it) {
+                    return m_H_ptr != it.m_H_ptr;
+                }
+                //!operators
+
+                private:
+                    //_W_pointer m_W_ptr;
+                    _H_pointer m_H_ptr;
+            };
+            //!member data
         public:
             //default constructor -> blank image
             Image() {
@@ -182,7 +252,25 @@ namespace wrd {
                 //printf("[%d][%d]", y, x);
                 return pixel_container[y][x];
             }
+            Iterator begin() {
+                return Iterator(
+                    //for height pointer, point to the first vector
+                    &pixel_container[0]
+                    //point to the first element of the first vector
+                    //&pixel_container[0][0]
+                );
+            }
+            Iterator end() {
+                int last = pixel_container.size()-1;
+                return Iterator(
+                    //for height pointer, point to the last vector
+                    &pixel_container[last]
+                    //point to the last element of the last vector
+                    //&pixel_container[last][pixel_container.at(last).size()-1]
+                );
+            }
     }; //!Image
-} //namespace Warden
+
+} //!namespace Warden
 
 #endif //!IMAGE_HPP

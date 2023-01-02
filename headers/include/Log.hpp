@@ -15,14 +15,24 @@ namespace wrd {
         M_23_2049,
     };
 
-    struct Message {
+    class Log {
         private:
             //member data
+            CodeMatrix m_letter_map;
             wString m_addressee;
             wString m_sender;
             wString m_text;
+            //!member data
         public:
+            //constructors
+            //  default
+            Log() = default;
+            //destructor
+            ~Log() {}
             //get functions
+            CodeMatrix getCodeMatrix() {
+                return this->m_letter_map;   
+            }
             wString getAddressee() {
                 return this->m_addressee;
             }
@@ -37,32 +47,10 @@ namespace wrd {
             void setText(wString& text) {
                 this->m_text = text;
             }
-            //!set functions
-    };
-
-    class Log {
-        private:
-            //member data
-            Message m_msg;
-            std::vector<symbol> m_letter_map;
-            //!member data
-        public:
-            //constructors
-            //  default
-            Log() = default;
-            //destructor
-            ~Log() {}
-            //get functions
-            std::vector<symbol> getCodeMatrix() {
-                return this->m_letter_map;   
-            }
-            Message& getMessage() {
-                return this->m_msg;
-            }
-            //!get functions
-            void setLetterMap(std::vector<symbol>& lm) {
+            void setLetterMap(CodeMatrix lm) {
                 m_letter_map = lm;
             }
+            //!set functions
     };
 }
 

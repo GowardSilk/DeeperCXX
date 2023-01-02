@@ -1,7 +1,8 @@
 #ifndef TESTER_HPP
 #define TESTER_HPP
 
-#include "DeepMain.hpp"
+#include <fstream>
+#include <ostream>
 
 class ReadIO {
     private:
@@ -23,12 +24,17 @@ class ReadIO {
             delete [] buf;
             check_file_validity();
         }
+        void read_char(char& value_to_read) {
+            rf.read(reinterpret_cast<char *>(&value_to_read), sizeof(char));
+            check_file_validity();
+        }
         void read_int(int& value_to_read) {
-            rf.read((char*) &value_to_read, sizeof(int));
+            rf.read(reinterpret_cast<char *>(&value_to_read), sizeof(int));
             check_file_validity();
         }
         void read_bool(bool& value_to_read) {
-            rf.read((char *) &value_to_read, sizeof(bool));
+            rf.read(reinterpret_cast<char *>(&value_to_read), sizeof(bool));
+            check_file_validity();
         }
         void close() {
             rf.close();
@@ -50,16 +56,19 @@ class WriteIO {
                 exit(EXIT_FAILURE);
             }
         }
+        void write_char(char value_to_write) {
+            wf.write(reinterpret_cast<char*>(&value_to_write), sizeof(char));
+        }
         void write_string(wString value_to_write) {
             int len = value_to_write.length();
             wf.write(reinterpret_cast<char*>(&len), sizeof(int));
             wf.write(value_to_write.c_str(), len);
         }
         void write_int(int value_to_write) {
-            wf.write((char*) &value_to_write, sizeof(int));
+            wf.write(reinterpret_cast<char*>(&value_to_write), sizeof(int));
         }
         void write_bool(bool value_to_write) {
-            wf.write((char*) &value_to_write, sizeof(bool));
+            wf.write(reinterpret_cast<char*>(&value_to_write), sizeof(bool));
         }
         void flush() {
             wf.flush();

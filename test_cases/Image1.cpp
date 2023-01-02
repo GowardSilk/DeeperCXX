@@ -1,4 +1,4 @@
-#include "../DEEP_EYE.hpp"
+#include <DEEP_EYE.hpp>
 
 int main() {
 
@@ -11,7 +11,8 @@ int main() {
     //"BLACK BOX"
     for(std::size_t y = 0; y < img.getResolution().y; y++) {
         for(std::size_t x = 0; x < img.getResolution().x; x++) {
-            img.getPixel(Vector2u(x, y)).setOpaque(255);
+            wrd::Pixel pxl = img.getPixel(Vector2u(x, y));
+            img.setPixel(Vector2u(x, y), pxl);
         }
     }
 

@@ -10,19 +10,22 @@ int main() {
 
     //"BLACK BOX"
     CodeMatrix letter_map = log.getCodeMatrix();
-    wrd::Message msg = log.getMessage();
 
-    wString text;
-    for(unsigned y = letter_map.height; y > 0; y--) {
-        if(y % 2 != 0) {
-            for(unsigned x = 0; x < letter_map.width; x++) {
-                if(x % 2 == 0)
-                    text.push_back(letter_map.get_symbol(Vector2u(x, y)));
-            }
+    wString text = log.getText(), final, num;
+    for(unsigned i = 0; i < letter_map.get_size(); i++) {
+        if(text[i] != ';') {
+            num += text[i];
+        }
+        else {
+            final.push_back(
+                letter_map.get_symbol(
+                    std::stoi(num)
+                )
+            );
+            num.erase();
         }
     }
-
-    msg.setText(text);
+    log.setText(final);
 
     //test
     wrd::DeepEye::read(log);

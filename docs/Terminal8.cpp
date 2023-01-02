@@ -6,7 +6,7 @@
     \brief
     create an algorithm (via function)
     that takes triplet as param and returns
-    the count of 1`s occurrent in binary form of given triplet
+    the count of 1`s occurring in binary form of given triplet
     @param tr consists of random numbers (1 <= n <= 100)
     @return expected count
     \code{.cpp}
