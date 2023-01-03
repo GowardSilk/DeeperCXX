@@ -53,12 +53,25 @@ namespace wrd {
                 case wrd::TXT::FBR_20_2049:
                     lg.read("Log2.dat", log);
                     break;
-                case wrd::TXT::APRL_16_2049:
+                case wrd::TXT::FBR_24_2049_10:
                     lg.read("Log3.dat", log);
                     break;
-                case wrd::TXT::APRL_25_2049:
+                case wrd::TXT::FBR_26_2049_11:
                     lg.read("Log4.dat", log);
+                case wrd::TXT::FBR_25_2049_23:
+                    lg.read("Log5.dat", log);
                     break;
+                case wrd::TXT::FBR_26_2049_10:
+                    lg.read("Log6.dat", log);
+                    break;
+                case wrd::TXT::FBR_26_2049_18:
+                    lg.read("Log7.dat", log);
+                    break;
+                case wrd::TXT::FBR_26_2049_4:
+                    lg.read("Log8.dat", log);
+                    break;
+                case wrd::TXT::FBR_26_2049_5:
+                    lg.read("Log9.dat", log);
                 default:
                     break;
                 }

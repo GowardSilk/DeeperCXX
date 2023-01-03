@@ -6,7 +6,7 @@ bool encoding_algo(char c) {
 }
 
 int main() {
-
+    //FBR_20_2049
     std::string text = "Hey Mike! Why haven`t you responded to my last message? What is wrong with you? I`ve heard from your collegues, you have been acting weird lately... Is everything all right? I mean, you can tell me if you need something... You know where...";
     const std::string addressee = "Mike Smith D";
     const std::string writer = "Mark White D";

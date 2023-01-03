@@ -14,6 +14,7 @@ void rotate(wrd::Image& img) {
 
 void rotate(wrd::Image& img, Vector2u begin, Vector2u end) {
     //"rotate" image by 180 deg
+    Vector2sz res = img.getResolution();
     for(unsigned y = begin.y; y < end.y; y++) {
         for(unsigned x = begin.x; x < end.x; x++) {
             wrd::Pixel temp = img.getPixel(Vector2u(end.x - x, end.y - y));
@@ -62,17 +63,17 @@ int main() {
         }
     }
     //rotate 4 parts
-    //  left upper corner
-    rotate(img,  Vector2u(0, img.getResolution().y/2), Vector2u(img.getResolution().x/2, img.getResolution().y));
-    //fill(img,  Vector2u(0, img.getResolution().y/2), Vector2u(img.getResolution().x/2, img.getResolution().y), wrd::Color::BLUE);
-    //  right upper corner
-    rotate(img, Vector2u(img.getResolution().x/2, img.getResolution().y/2), Vector2u(img.getResolution().x, img.getResolution().y));
-    //fill(img, Vector2u(img.getResolution().x/2, img.getResolution().y/2), Vector2u(img.getResolution().x, img.getResolution().y), wrd::Color::GREEN);
-    //  left bottom corner
-    rotate(img, Vector2u(0, 0), Vector2u(img.getResolution().x/2, img.getResolution().y/2));
-    //fill(img, Vector2u(0, 0), Vector2u(img.getResolution().x/2, img.getResolution().y/2), wrd::Color::BLACK);
+    //  left bottom corner - DONE
+    //rotate(img,  Vector2u(0, img.getResolution().y/4), Vector2u(img.getResolution().x/2, img.getResolution().y/2));
+    //fill(img, Vector2u(0, img.getResolution().y/4), Vector2u(img.getResolution().x/2, img.getResolution().y/2), wrd::Color::BLUE);
     //  right bottom corner
+    //rotate(img, Vector2u(img.getResolution().x/2, img.getResolution().y/2), Vector2u(img.getResolution().x, img.getResolution().y));
+    //fill(img, Vector2u(img.getResolution().x/2, img.getResolution().y/2), Vector2u(img.getResolution().x, img.getResolution().y), wrd::Color::GREEN);
+    //  left upper corner - DONE
+    //rotate(img, Vector2u(0, img.getResolution().y/2), Vector2u(img.getResolution().x/2, img.getResolution().y));
+    //fill(img, Vector2u(0, img.getResolution().y/2), Vector2u(img.getResolution().x/2, img.getResolution().y), wrd::Color::BLACK);
+    //  right bottom corner
+    fill(img, Vector2u(img.getResolution().x/2, 0), Vector2u(img.getResolution().x, img.getResolution().y/2), wrd::Color::YELLOW);
     rotate(img, Vector2u(img.getResolution().x/2, 0), Vector2u(img.getResolution().x, img.getResolution().y/2));
-    //fill(img, Vector2u(img.getResolution().x/2, 0), Vector2u(img.getResolution().x, img.getResolution().y/2), wrd::Color::YELLOW);
     imgstream::render(img, "Image3.bmp");
 }

@@ -201,6 +201,7 @@ class Vector2 {
 		//member data
 		T x;
 		T y;
+		//operators
 };
 //define most common use cases
 typedef Vector2<unsigned int> Vector2u;

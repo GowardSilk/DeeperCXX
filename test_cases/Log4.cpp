@@ -23,7 +23,7 @@ int next_valid(int val) {
 }
  
 int main() {
-
+    //FBR_26_2049_11
     std::string text = "WHAT DO YOU THINK YOU ARE DOING ?! ARE YOU COMPLETELY OUT OF YOUR MIND? WHAT HAVE YOU BEEN THINKING? I KNOW YOU ARE READING THIS MESSAGE. I KNOW WHERE YOU ARE. THEY KNOW... MIKE DONT MAKE THIS HARDER FOR YOURSELF...";
     const std::string addressee = "Mike Smith D";
     const std::string writer = "Mark White D";

@@ -34,13 +34,15 @@ std::string to_uu_encoding(std::string str) {
 }
 
 int main() {
-
-    std::string text = "";
-    const std::string addressee = "";
-    const std::string writer = "";
-    std::cout << to_uu_encoding(text) << std::endl;
+    //FBR_26_2049_4
+    std::string text = "[wrd::___LOC___::A___sector]; [THREAT LVL 4 DETECTED]; [INIT RG_829_PRCL]; [STATUS INFO]: receiving...; [STATUS INFO]: AIR_VALS: <TEMP: 24.5C> <COMP: 77% N, 21% O, 2% UNKNOWN>; [STATUS INFO]: refreshing...; [STATUS INFO]: AIR_VALS: <TEMP: 25.1C> <COMP: 76.5% N, 20.5% O, 3% UNKNOWN>; [STATUS INFO]: refreshing...";
+    const std::string addressee = "//::HQ";
+    const std::string writer = "//::DEEP_EYE";
+    text = to_uu_encoding(text);
+    std::cout << text << std::endl;
     LogGen lg(text, addressee, writer);
     lg.gen_cm_arr(text);
     lg.encode();
+    lg.write("Log8.dat");
 
 }
