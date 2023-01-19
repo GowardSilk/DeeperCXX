@@ -1,19 +1,21 @@
-#include <DEEP_EYE.hpp>
+//#include <DEEP_EYE.hpp>
+#include <Reactor.hpp>
+//#include <Shadow.hpp>
+//#include <Terminal.hpp>
+
+wString reactor_function(wString str) {
+    for(unsigned i = 0; i < str.length(); i++) {
+        str.at(i) -= 32;
+    }
+    return str;
+}
 
 int main() {
 
-    wrd::Image img;
-    wrd::DeepEye::IMG_download(img, wrd::JPEG::MRCH_2_2049);
-    for(auto& vec : img) {
-        for(wrd::Pixel& pxl : vec) {
-            pxl.setRGB(wrd::Color::GREEN);
-        }
-    }
-    wrd::DeepEye::render(img);
-
-    wrd::Footage ftg;
-    wrd::DeepEye::FTG_retrieve(ftg, wrd::FTG::DEC_14_2049);
-    wrd::DeepEye::play(ftg);
+    wrd::Reactor_prcl reactor;
+    reactor.connect(wrd::_REACTOR_::IMPACT_v1_2A);
+    reactor.hijack(reactor_function);
+    reactor.override();
 
     std::cin.get();
 }

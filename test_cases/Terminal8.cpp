@@ -1,5 +1,5 @@
-#include "../Terminal.hpp"
-#include "../Tester.hpp"
+#include <Terminal.hpp>
+#include <Tester.hpp>
 #include <random>
 
 int terminal_function(triplet<int> tr_con) {

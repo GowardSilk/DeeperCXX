@@ -1,11 +1,13 @@
 #ifndef DEEP_EYE_HPP
 #define DEEP_EYE_HPP
 
+#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
+
 #include "Footage.hpp"
 #include "LogGen.hpp"
 #include "ImageStream.hpp"
 
-static std::string fileDest;
+inline static std::string fileDest;
 
 namespace wrd {
     class DeepEye {
@@ -18,26 +20,26 @@ namespace wrd {
                 {
                 case wrd::JPEG::MRCH_2_2049:
                 //
-                    fileDest = "img_before/img1.bmp";
-                    imgstream::read(img, "img_before/img1.bmp");
+                    fileDest = "Image1.bmp";
+                    imgstream::read(img, "Image1.bmp");
                     break;
                 case wrd::JPEG::M_5_2049:
                 //
-                    //fileDest = "";
-                    imgstream::read(img, "");
+                    fileDest = "Image2.bmp";
+                    imgstream::read(img, "Image2.bmp");
                     break;
                 case wrd::JPEG::JL_1_2049:
                 //
-                    //fileDest = "";
-                    imgstream::read(img, "");
+                    fileDest = "Image3.bmp";
+                    imgstream::read(img, "Image3.bmp");
                     break;
                 case wrd::JPEG::SP_19_2049:
                 //
-                    //fileDest = "";
-                    imgstream::read(img, "");
+                    fileDest = "Image4.bmp";
+                    imgstream::read(img, "Image4.bmp");
                     break;
                 default:
-                    std::cout << "JPEG does not exist!\n";
+                    throw std::invalid_argument("[DEEP_EYE]: No such JPEG file exists!");
                     break;
                 }
                 return;
@@ -58,6 +60,7 @@ namespace wrd {
                     break;
                 case wrd::TXT::FBR_26_2049_11:
                     lg.read("Log4.dat", log);
+                    break;
                 case wrd::TXT::FBR_25_2049_23:
                     lg.read("Log5.dat", log);
                     break;
@@ -73,17 +76,26 @@ namespace wrd {
                 case wrd::TXT::FBR_26_2049_5:
                     lg.read("Log9.dat", log);
                 default:
+                    throw std::invalid_argument("[DEEP_EYE]: No such TXT file exists!");
                     break;
                 }
             }
             //  used to "retrieve" footage
             static void FTG_retrieve(wrd::Footage& ftg, wrd::FTG ftg_name) {
-                ftg.setTimeDuration(3);
-                for(int i = 1; i <= ftg.getTimeDuration(); i++) {
-                    wrd::Image img;
-                    fileDest = "ftg_before/img" + std::to_string(i) + ".bmp";
-                    imgstream::read(img, fileDest.c_str());
-                    ftg.setImage(i-1, img);
+                switch (ftg_name)
+                {
+                case wrd::FTG::DEC_14_2049:
+                    ftg.setTimeDuration(3);
+                    fileDest = "ftg_after";
+                    for(int i = 1; i <= 3; i++) {
+                        wrd::Image img;
+                        imgstream::read(img, ("ftg_before/img" + std::to_string(i) + ".bmp").c_str());
+                        ftg.setImage(i-1, img);
+                    }
+                    break;
+                default:
+                    throw std::invalid_argument("[DEEP_EYE]: No such FTG file exists!");
+                    break;
                 }
             }
             //!download functions
@@ -91,7 +103,6 @@ namespace wrd {
             //upload functions
             //  used to send image to the website
             static void render(wrd::Image& img) {
-                fileDest = "img_after/img1.bmp";
                 imgstream::render(img, fileDest.c_str());
                 JSON_stream.write("image", fileDest.c_str());
             }
@@ -104,14 +115,16 @@ namespace wrd {
             static void play(wrd::Footage& ftg) {
                 int i = 1;
                 for(wrd::Footage::Iterator it = ftg.begin(); it != ftg.end(); it++) {
-                    fileDest = "ftg_after/img" + std::to_string(i) + ".bmp";
-                    imgstream::render(*it, fileDest.c_str());
+                    imgstream::render(*it, ("ftg_after/img" + std::to_string(i) + ".bmp").c_str());
                     i++;
                 }
-                JSON_stream.write("ftg_after", fileDest.c_str());
+                json ftg_json = FOOTAGE_JSON;
+                ftg_json["folderDest"] = "ftg_after";
+                ftg_json["timeDuration"] = ftg.getTimeDuration();
+                JSON_stream.write("footage", ftg_json);
             }
             //!upload functions
-    };
+    }; //!DeepEye
 } //!namespace Warden
 
 #endif

@@ -1,4 +1,4 @@
-#include "../DeepMain.hpp"
+#include <Terminal.hpp>
 #include <random>
 #include <time.h>
 

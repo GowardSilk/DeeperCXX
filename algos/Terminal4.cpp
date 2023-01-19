@@ -1,4 +1,4 @@
-#include "../Terminal.hpp"
+#include <Terminal.hpp>
 
 int calc_diff(TripletContainer<int>& tr_con, int pos) {
     return abs(tr_con.sum_at(0, std::begin(tr_con)+pos) - tr_con.sum_at(0, std::begin(tr_con)+1+pos));
@@ -16,7 +16,7 @@ int terminal_function(TripletContainer<int> tr_con) {
 int main() {
 
     wrd::Terminal_prcl terminal;
-    terminal.connect(wrd::_TERMINAL_::D);
+    terminal.connect(wrd::_TERMINAL_::B_524);
     terminal.hijack(terminal_function);
     terminal.override();
 

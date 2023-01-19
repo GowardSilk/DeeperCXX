@@ -3,3 +3,5 @@ WARN_AS_ERROR          = YES
 OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/doc_doxygen/
 INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/../source/ @CMAKE_CURRENT_SOURCE_DIR@/../docs
 RECURSIVE              = YES
+USE_PDFLATEX           = YES
+PDF_HYPERLINKS         = YES

@@ -1,6 +1,4 @@
-#include "../DeepMain.hpp"
-#include "../Terminal.hpp"
-#include "../Shadow.hpp"
+#include <Terminal.hpp>
 
 triplet<int> terminal_func(TripletContainer<int> tr_con) {
     triplet<int> tr = tr_con.at(0);
@@ -15,7 +13,7 @@ triplet<int> terminal_func(TripletContainer<int> tr_con) {
 int main() {
 
     wrd::Terminal_prcl terminal;
-    terminal.connect(wrd::_TERMINAL_::C);
+    terminal.connect(wrd::_TERMINAL_::B_301);
     terminal.hijack(terminal_func);
     terminal.override();
 

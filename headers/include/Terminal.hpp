@@ -2,6 +2,7 @@
 #define TERMINAL_HPP
 
 #include "DeepMain.hpp"
+#include "Tester.hpp"
 
 template<typename T1, typename T2>
 class Shadow_prcl;
@@ -36,9 +37,7 @@ namespace wrd {
 						//check if usr is connected
 						case _TERMINAL_::T_DISCONNECTED:
 						{	//
-							std::cout << "not connected!\n";
-							exit(EXIT_FAILURE);
-							break;
+							throw std::invalid_argument("[TERMINAL_PRCL]: Not connected to Terminal!");
 						}
 						//
 						case _TERMINAL_::A_220:
@@ -94,7 +93,7 @@ namespace wrd {
 							break;
 						}
 						default:
-							std::cout << "No Terminal matches the arguments list!\n";
+							throw std::invalid_argument("[TERMINAL_PRCL]: No such _TERMINAL_ exists!");
 							break;
 					}
 				}
@@ -106,9 +105,7 @@ namespace wrd {
 						//check if usr is connected
 						case _TERMINAL_::T_DISCONNECTED:
 						{	//
-							std::cout << "not connected!\n";
-							exit(EXIT_FAILURE);
-							break;
+							throw std::invalid_argument("[TERMINAL_PRCL]: Not connected to Terminal!");
 						}
 						//
 						case _TERMINAL_::B_301:
@@ -144,7 +141,7 @@ namespace wrd {
 						//
 						case _TERMINAL_::C_246:
 						{	//
-							std::ifstream rf("Terminal4.dat", std::ios::out | std::ios::binary);
+							std::ifstream rf("Terminal6.dat", std::ios::out | std::ios::binary);
 							if(!rf) {
 								std::cout << "cannot read file!\n";
 							}
@@ -159,7 +156,7 @@ namespace wrd {
 							rf.close();
 						}
 						default:
-							std::cout << "No Terminal matches the arguments list!\n";
+							throw std::invalid_argument("[TERMINAL_PRCL]: No such _TERMINAL_ exists!");
 							break;
 					}
 				}
@@ -169,9 +166,7 @@ namespace wrd {
 					switch (this->terminal_type)
 					{
 					case _TERMINAL_::T_DISCONNECTED:
-						std::cout << "not connected!\n";
-						exit(EXIT_FAILURE);
-						break;
+						throw std::invalid_argument("[TERMINAL_PRCL]: Not connected to Terminal!");
 					case _TERMINAL_::B_524:
 					{	//
 						std::ifstream rf("Terminal4.dat", std::ios::out | std::ios::binary);
@@ -203,6 +198,7 @@ namespace wrd {
 						break;
 					}
 					default:
+						throw std::invalid_argument("[TERMINAL_PRCL]: No such _TERMINAL_ exists!");
 						break;
 					}
 				}
@@ -212,9 +208,7 @@ namespace wrd {
 					switch (this->terminal_type)
 					{
 					case _TERMINAL_::T_DISCONNECTED:
-						std::cout << "not connected!\n";
-						exit(EXIT_FAILURE);
-						break;
+						throw std::invalid_argument("[TERMINAL_PRCL]: Not connected to Terminal!");
 					case _TERMINAL_::C_303: {
 						std::ifstream rf("Terminal5.dat", std::ios::out | std::ios::binary);
 						if(!rf) {
@@ -252,6 +246,7 @@ namespace wrd {
 						rf.close();
 					}	break;
 					default:
+						throw std::invalid_argument("[TERMINAL_PRCL]: No such _TERMINAL_ exists!");
 						break;
 					}
 				}
@@ -260,30 +255,45 @@ namespace wrd {
 				if(!is_shadowed){
 					switch (this->terminal_type) {
 						case _TERMINAL_::T_DISCONNECTED:
-							break;
+							throw std::invalid_argument("[TERMINAL_PRCL]: Not connected to Terminal!");
 						case _TERMINAL_::C_954:
 						{	//
-							std::ifstream rf("Terminal7.dat", std::ios::out | std::ios::binary);
-							if(!rf) {
-								std::cout << "cannot read file!\n";
-							}
+							ReadIO reader("Terminal7.dat");
 							//TEST_CASES
+							for(uint_fast16_t i = 0; i < 10; i++) {
+								int tr1, tr2, tr3;
+								reader.read_int(tr1);							
+								reader.read_int(tr2);
+								reader.read_int(tr3);
+								int expec;
+								reader.read_int(expec);
+								if(func(triplet<int>(tr1, tr2, tr3)) == expec)
+									this->terminal_hack_success += 0.1f;
+							}
 							//!TEST_CASES
-							rf.close();
+							reader.close();
 							break;
 						}
 						case _TERMINAL_::C_282:
 						{	//
-							std::ifstream rf("Terminal8.dat", std::ios::out | std::ios::binary);
-							if(!rf) {
-								std::cout << "cannot read file!\n";
-							}
+							ReadIO reader("Terminal8.dat");
 							//TEST_CASES
+							for(uint_fast16_t i = 0; i < 10; i++) {
+								int tr1, tr2, tr3;
+								reader.read_int(tr1);
+								reader.read_int(tr2);
+								reader.read_int(tr3);
+								int expec;
+								reader.read_int(expec);
+								if(func(triplet<int>(tr1, tr2, tr3)) == expec)
+									this->terminal_hack_success += 0.1f;
+							}
 							//!TEST_CASES
-							rf.close();
+							reader.close();
 							break;
 						}
 						default:
+							throw std::invalid_argument("[TERMINAL_PRCL]: No such _TERMINAL_ exists!");
 							break;
 					}
             	}
@@ -293,26 +303,38 @@ namespace wrd {
 					switch(this->terminal_type)
 					{
 						case _TERMINAL_::T_DISCONNECTED:
-							break;
+							throw std::invalid_argument("[TERMINAL_PRCL]: Not connected to Terminal!");
 						case _TERMINAL_::D_702:
 						{	//
-							std::ifstream rf("Terminal9.dat", std::ios::out | std::ios::binary);
-							if(!rf) {
-								std::cout << "cannot read file!\n";
-							}
+							ReadIO reader("Terminal9.dat");
 							//TEST_CASES
+							for(uint_fast16_t i = 0; i < 10; i++) {
+								int tr1, tr2, tr3;
+								reader.read_int(tr1);
+								reader.read_int(tr2);
+								reader.read_int(tr3);
+								bool expec;
+								reader.read_bool(expec);
+								if(func(triplet<int>(tr1, tr2, tr3)) == expec)
+									this->terminal_hack_success += 0.1f;
+							}
 							//!TEST_CASES
-							rf.close();
+							reader.close();
 							break;
 						}
 						default:
+							throw std::invalid_argument("[TERMINAL_PRCL]: No such _TERMINAL_ exists!");
 							break;
 					}
 				}
 			}
 			void override() {
 				if(!is_shadowed) {
-					JSON_stream.write("success", this->terminal_hack_success*100);
+					json t_json = SUCCESS_JSON;
+					t_json["level"] = this->terminal_type;
+					t_json["type"] = "TERMINAL";
+					t_json["success"] = this->terminal_hack_success*100;
+					JSON_stream.write("success", t_json);
 				}
 			}
 			void connect(wrd::_TERMINAL_ terminal) {

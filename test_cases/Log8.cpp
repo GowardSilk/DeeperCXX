@@ -44,5 +44,4 @@ int main() {
     lg.gen_cm_arr(text);
     lg.encode();
     lg.write("Log8.dat");
-
 }

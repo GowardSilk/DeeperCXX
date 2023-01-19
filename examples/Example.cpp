@@ -1,8 +1,10 @@
-#include <DeepMain.hpp>
+#include <DEEP_EYE.hpp>
 
 int main() {
 
-    triplet<int> my_triplet(1, 2, 3);
+    //create a plain log
+    wrd::Log log;
+    
 
     return DEEPER;
 }

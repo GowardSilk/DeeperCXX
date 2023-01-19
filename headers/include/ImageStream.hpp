@@ -2,6 +2,7 @@
 #define IMAGE_STREAM_HPP
 
 #include "Image.hpp"
+#include "Benchmark.hpp"
 
 const int MIN_RGB=0;
 const int MAX_RGB=255;
@@ -121,13 +122,18 @@ namespace imgstream {
 
         //initialize image for specific width/height
         img = wrd::Image(Vector2sz(dib_info.width, dib_info.height));
-
+    //#define MT
+    //MT stands for multithreading -> this is disabled because it is actually
+    //not effective because of hard thread locking
+    Benchmark test;
+    //#pragma omp parallel for
     #ifdef MT
+        unsigned y = 0;
         std::for_each(
             std::execution::par,
             img.begin(),
             img.end(),
-            [](std::vector<Pixel>& pxl_line) {
+            [&](std::vector<wrd::Pixel>& pxl_line) {
                 for(int32_t x = 0; x < pxl_line.size(); x++) {
                     img.setPixel(
                         Vector2u(x, y),
@@ -135,6 +141,7 @@ namespace imgstream {
                     );
                 }
                 file.ignore(dib_info.height % 4);
+                y++;
             }
         );
     #else
@@ -148,16 +155,13 @@ namespace imgstream {
             //ignore padding
             file.seekg(dib_info.width % 4, std::ios::cur);
         }
-
+    #endif
         if(file.good())
             std::cout << "[imgstream::read] img was successfully read!\n";
         else
             std::cout << "[imgstream::read] something wrong during reading!\n";
         file.close();
-    #endif
     }
-
-    
 }
 
 #endif //!IMAGE_STREAM_HPP

@@ -127,6 +127,9 @@ namespace wrd {
             triplet<int> getRGB() {
                 return this->rgb;
             }
+            triplet<int> getRGB() const {
+                return this->rgb;
+            }
             RGBA getRGBA() {
                 struct RGBA con = {
                     .rgb = this->rgb,
@@ -141,49 +144,76 @@ namespace wrd {
             //member data
             Vector2sz resolution;
             PIXEL_VECTOR pixel_container;
+            //!member data
+            void check_bounds(Vector2u pos) {
+                if(pos.y >= pixel_container.size() || pos.x >= pixel_container[0].size()) {
+                    std::cout << "Image::check_bounds(Vector2u, Pixel): invalid size!\n";
+                    std::cout << "[x, y] = {" << pos.x << "," << pos.y << "}\n";
+                    std::cout << "size of Image = {" <<  pixel_container[0].size() << "," << pixel_container.size() << "}\n";
+                    exit(1);
+                }
+            }
+            void check_bounds(unsigned x, unsigned y) {
+                if(y >= pixel_container.size() || x >= pixel_container[0].size()) {
+                    std::cout << "Image::check_bounds(unsigned x, unsigned y, Pixel): invalid size!\n";
+                    std::cout << "[x, y] = {" << x << "," << y << "}\n";
+                    std::cout << "size of Image = {" <<  pixel_container[0].size() << "," << pixel_container.size() << "}\n";
+                    exit(1);
+                }
+            }
         public:
             //member data
             struct Iterator 
-            {
-                //iterator tags
-                using iterator_category = std::forward_iterator_tag;
-                using difference_type   = std::ptrdiff_t;
+                : public std::iterator<std::forward_iterator_tag, std::vector<Pixel>, std::vector<Pixel>> 
+            {               
+                public:
+                    //iterator tags
+                    typedef std::forward_iterator_tag   iterator_category;
+                    typedef std::ptrdiff_t              difference_type;
 
-                //PIXEL VECTOR height pointer
-                using _H_value_type     = std::vector<Pixel>;
-                using _H_pointer        = _H_value_type*; //std::vector<Pixel>*
-                using _H_reference      = _H_value_type&; //std::vector<Pixel>&
+                    //PIXEL VECTOR height pointer
+                    typedef std::vector<wrd::Pixel>     _H_value_type;
+                    typedef _H_value_type*              _H_pointer;   //std::vector<Pixel>*
+                    typedef _H_value_type&              _H_reference; //std::vector<Pixel>&
 
-                //PIXEL VECTOR width pointer
-                // using _W_value_type     = Pixel;
-                // using _W_pointer        = _W_value_type*; //Pixel*
-                // using _W_reference      = _W_value_type&; //Pixel&
-                //!iterator tags
+                    //PIXEL VECTOR width pointer
+                    // using _W_value_type     = Pixel;
+                    // using _W_pointer        = _W_value_type*; //Pixel*
+                    // using _W_reference      = _W_value_type&; //Pixel&
+                    //!iterator tags
 
-                //constructor
-                Iterator(_H_pointer h_ptr /*_W_pointer w_ptr*/) 
-                    : m_H_ptr(h_ptr) {}
-                      /*m_W_ptr(w_ptr)*/
-                //!constructor
+                    //constructor
+                    Iterator() = default;
+                    Iterator(_H_pointer h_ptr /*_W_pointer w_ptr*/) 
+                        : m_H_ptr(h_ptr) {}
+                        /*m_W_ptr(w_ptr)*/
+                    //!constructor
 
-                //supporting all necessary operations
-                //for forward iterator
-                //operators
-                _H_reference operator*() const { return *m_H_ptr; }
-                _H_pointer operator->() { return m_H_ptr; }
-                Iterator& operator++() { m_H_ptr++; return *this; }
-                Iterator operator++(int) { 
-                    Iterator tmp = *this;
-                    ++(*this);
-                    return tmp;
-                }
-                bool operator==(const Iterator& it) {
-                    return m_H_ptr == it.m_H_ptr;
-                }
-                bool operator!=(const Iterator& it) {
-                    return m_H_ptr != it.m_H_ptr;
-                }
-                //!operators
+                    //supporting all necessary operations
+                    //for forward iterator
+                    //operators
+                    _H_reference operator*() const { return *m_H_ptr; }
+                    _H_pointer operator->() { return m_H_ptr; }
+                    Iterator& operator++() { m_H_ptr++; return *this; }
+                    Iterator operator++(int) { 
+                        Iterator tmp = *this;
+                        ++(*this);
+                        return tmp;
+                    }
+                    Iterator operator+(unsigned i) {
+                        return m_H_ptr + i;
+                    }
+                    //const _H_value_type operator+(const Iterator& lhs) const { return m_H_ptr + lhs.m_H_ptr; }
+                    //_H_value_type operator-(const Iterator& lhs) const { return m_H_ptr - lhs.m_H_ptr; }
+                    //  equality
+                    bool operator==(const Iterator& it) {
+                        return m_H_ptr == it.m_H_ptr;
+                    }
+                    bool operator!=(const Iterator& it) {
+                        return m_H_ptr != it.m_H_ptr;
+                    }
+                    //  !equality
+                    //!operators
 
                 private:
                     //_W_pointer m_W_ptr;
@@ -209,8 +239,8 @@ namespace wrd {
             //constructor
             //  
             Image(std::initializer_list<std::vector<Pixel>> l) 
-                : pixel_container(l),
-                  resolution(l.begin()->size(), l.size()) {}
+                : resolution(l.begin()->size(), l.size()),
+                  pixel_container(l) {}
             //destructor
             ~Image() = default;
             //set functions
@@ -228,22 +258,11 @@ namespace wrd {
                 //std::cout << "width = " << pixel_container.at(0).size() << " height = " << pixel_container.size() << std::endl;
             }
             void setPixel(unsigned int x, unsigned int y, Pixel pxl) {
-                if(y > pixel_container.size() || x > pixel_container.at(0).size()) {
-                    std::cout << "Image::setPixel(int, int, Pixel): invalid size!\n";
-                    exit(1);
-                }
-                else {
-                    pixel_container[y][x] = pxl;
-                }
+                check_bounds(x, y);
+                pixel_container[y][x] = pxl;
             }
             void setPixel(Vector2u position, Pixel pxl) {
-                //std::cout << pxl.getRGB()._triplet_unit_1 << "," << pxl.getRGB()._triplet_unit_2 << "," << pxl.getRGB()._triplet_unit_3 << std::endl;
-                if(position.y >= pixel_container.size() || position.x >= pixel_container.at(0).size()) {
-                    std::cout << "Image::setPixel(Vector2u, Pixel): invalid size!\n";
-                    std::cout << "Vector2u = {" << position.x << "," << position.y << "}\n";
-                    std::cout << "size of Image = {" <<  pixel_container[0].size() << "," << pixel_container.size() << "}\n";
-                    exit(1);
-                }
+                check_bounds(position);
                 pixel_container[position.y][position.x] = pxl;
             }
             //get functions
@@ -252,10 +271,12 @@ namespace wrd {
             }
             Pixel getPixel(Vector2u position) {
                 //printf("[%d][%d]", position.y, position.x);
+                check_bounds(position);
                 return pixel_container[position.y][position.x];
             }
             Pixel getPixel(unsigned int x, unsigned int y) {
                 //printf("[%d][%d]", y, x);
+                check_bounds(x, y);
                 return pixel_container[y][x];
             }
             Iterator begin() {
@@ -265,6 +286,14 @@ namespace wrd {
                     //point to the first element of the first vector
                     //&pixel_container[0][0]
                 );
+            }
+            Iterator begin(unsigned pos_move) {
+                return Iterator(
+                    //for height pointer, point to the first vector
+                    &pixel_container[0]
+                    //point to the first element of the first vector
+                    //&pixel_container[0][0]
+                ) + pos_move;
             }
             Iterator end() {
                 int last = pixel_container.size()-1;

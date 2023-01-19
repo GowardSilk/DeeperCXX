@@ -35,7 +35,7 @@ namespace wrd {
 				{
 					//check if usr is connected
 					case _REACTOR_::R_DISCONNECTED:
-						std::cout << "not connected!\n";
+						throw std::invalid_argument("[REACTOR_PRCL]: Not connected to Reactor!");
 						break;
 					case _REACTOR_::IMPACT_v1_2A: {
 						ReadIO reader("Reactor1.dat");
@@ -119,6 +119,7 @@ namespace wrd {
 						reader.close();
 					}	break;
 					default:
+						throw std::invalid_argument("[REACTOR_PRCL]: No such _REACTOR_ exists!");
 						break;
 				}
 			}
@@ -126,8 +127,7 @@ namespace wrd {
 				switch(this->reactor_type) {
 					//check if usr is connected
 					case _REACTOR_::R_DISCONNECTED:
-						std::cout << "not connected!\n";
-						break;
+						throw std::invalid_argument("[REACTOR_PRCL]: Not connected to Reactor!");
 					//R_TWINX 0012 beta
 					case _REACTOR_::TWINX_B: {
 						ReadIO reader("Reactor3.dat");
@@ -151,6 +151,7 @@ namespace wrd {
 						reader.close();
 					}	break;
 					default:
+						throw std::invalid_argument("[REACTOR_PRCL]: No such _REACTOR_ exists!");
 						break;
 				}
 			}
@@ -158,8 +159,7 @@ namespace wrd {
 				switch (this->reactor_type)
 				{
 					case _REACTOR_::R_DISCONNECTED:
-						std::cout << "not connected!\n";
-						break;
+						throw std::invalid_argument("[REACTOR_PRCL]: Not connected to Reactor!");
 					case _REACTOR_::MARSCHAL_v014: {
 						ReadIO reader("Reactor5.dat");
 						//TEST_CASES
@@ -179,14 +179,14 @@ namespace wrd {
 						reader.close();
 					}	break;
 					default:
+						throw std::invalid_argument("[REACTOR_PRCL]: No such _REACTOR_ exists!");
 						break;
 				}
 			}
 			void hijack(int (*func)(wString)) {
 				switch(this->reactor_type) {
 					case _REACTOR_::R_DISCONNECTED:
-						std::cout << "Not connected!\n";
-						break;
+						throw std::invalid_argument("[REACTOR_PRCL]: Not connected to Reactor!");
 					case _REACTOR_::BUCKLAND_EX: {
 						ReadIO reader("Reactor6.dat");
 						//TEST_CASES
@@ -202,14 +202,14 @@ namespace wrd {
 						reader.close();
 					}	break;
 					default:
+						throw std::invalid_argument("[REACTOR_PRCL]: No such _REACTOR_ exists!");
 						break;
 				}
 			}
 			void hijack(bool (*func)(wString)) {
 				switch(this->reactor_type) {
 					case _REACTOR_::R_DISCONNECTED:
-						std::cout << "Not connected!\n";
-						break;
+						throw std::invalid_argument("[REACTOR_PRCL]: Not connected to Reactor!");
 					case _REACTOR_::JAMBO_v1_9: {
 						ReadIO reader("Reactor7.dat");
 						//TEST_CASES
@@ -225,14 +225,14 @@ namespace wrd {
 						reader.close();
 					}	break;
 					default:
+						throw std::invalid_argument("[REACTOR_PRCL]: No such _REACTOR_ exists!");
 						break;
 				}
 			}
 			void hijack(bool (*func)(wString, wString)) {
 				switch(this->reactor_type) {
 					case _REACTOR_::R_DISCONNECTED:
-						std::cout << "Not connected!\n";
-						break;
+						throw std::invalid_argument("[REACTOR_PRCL]: Not connected to Reactor!");
 					case _REACTOR_::CITADEL_v2_2B: {
 						ReadIO reader("Reactor10.dat");
 						//TEST_CASES
@@ -240,12 +240,17 @@ namespace wrd {
 						reader.close();
 					}	break;
 					default:
+						throw std::invalid_argument("[REACTOR_PRCL]: No such _REACTOR_ exists!");
 						break;
 				}
 			}
  			void override() {
 				if(!is_shadowed) {
-					JSON_stream.write("success", this->reactor_hack_success*100);
+					json r_json = SUCCESS_JSON;
+					r_json["level"] = this->reactor_type;
+					r_json["type"] = "REACTOR";
+					r_json["success"] = this->reactor_hack_success*100;
+					JSON_stream.write("success", r_json);
 				}
 			}
 			void connect(wrd::_REACTOR_ rt) {

@@ -1,5 +1,5 @@
-#include "../Terminal.hpp"
-#include "../Tester.hpp"
+#include <Terminal.hpp>
+#include <Tester.hpp>
 #include <random>
 
 bool find(unsigned& index, TripletContainer<int>& tr_con) {

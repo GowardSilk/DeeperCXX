@@ -121,6 +121,9 @@
     "**/.vscode",
     "**/.vscode/**"
   ],
-  "C_Cpp.errorSquiggles": "Enabled",
-  "cmake.sourceDirectory": "${workspaceFolder}/source"
+  "C_Cpp.errorSquiggles": "enabled",
+  "cmake.sourceDirectory": "${workspaceFolder}/source",
+  "terminal.integrated.automationProfile.windows": {
+    "path": "C:/Windows/System32/cmd.exe"
+  }
 }

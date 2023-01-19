@@ -1,10 +1,11 @@
-#include "../Terminal.hpp"
+#include <Terminal.hpp>
 
 triplet<int> terminal_function(triplet<int> tr) {
-    int temp = tr._triplet_unit_1;
-    tr._triplet_unit_1 = tr._triplet_unit_3;
-    tr._triplet_unit_3 = temp;
-    return tr;
+    return triplet<int>(tr._triplet_unit_3, tr._triplet_unit_2, tr._triplet_unit_1);
+    // int temp = tr._triplet_unit_1;
+    // tr._triplet_unit_1 = tr._triplet_unit_3;
+    // tr._triplet_unit_3 = temp;
+    // return tr;
 }
 
 int main() {

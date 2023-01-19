@@ -1,9 +1,9 @@
 #include <LogGen.hpp>
 
 /*!
- * @defgroup L_g4 Even positional
+ * @defgroup L_g4 Prime positional
  * @ingroup E_g_LP 
- * @brief Even positional encoding.
+ * @brief Prime positional encoding.
  * In order to decode this message, you need 2 things:
  * <ul>
  *     <li>CodeMatrix</li>
@@ -13,8 +13,8 @@
  * Encoded text contains POSITIONS of characters from CodeMatrix in a specific format:
  * every number in string is divided by ';' (e.g. "1;2;3")
  * @code {.cpp}
- * CodeMatrix cm = log.getCodeMatrix(); //{'}', NULL, 'H', 'l', 'e', '@', 'o'}
- * wString text = log.getText(); //"0;4;2;2;6"
+ * CodeMatrix cm = log.getCodeMatrix(); //{LF, NULL, 'H', 'l', NULL, 'e', '@', 'o'}
+ * wString text = log.getText(); //"2;5;3;3;7"
  * => [ALGORITHM] => expec_str = "Hello"
  * @endcode
 */

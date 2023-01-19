@@ -1,4 +1,4 @@
-#include "../Reactor.hpp"
+#include <Reactor.hpp>
 #include <random>
 
 const char ARR[50] = {

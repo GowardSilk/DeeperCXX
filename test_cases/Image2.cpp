@@ -1,26 +1,30 @@
 #include <DEEP_EYE.hpp>
+#include <Benchmark.hpp>
+#define MT
 
-void image_function(wrd::Image& img) {
+void image_function(wrd::Image& img, Vector2u begin, Vector2u end) {
+    Benchmark timer;
     //"BLACK BOX"
-    for(std::size_t y = 0; y < img.getResolution().y; y++) {
-        for(std::size_t x = 0; x < img.getResolution().x; x++) {
-            //swap the R and B vals
-            wrd::Pixel pxl = img.getPixel(Vector2u(x, y));
-            if(x % 2 == 0) {
-                pxl.setRGB(
-                    pxl.getRGB()._triplet_unit_3,
-                    pxl.getRGB()._triplet_unit_2,
-                    pxl.getRGB()._triplet_unit_1
-                );
-                img.setPixel(Vector2u(x, y), pxl);
-            }
-        }
+    #ifndef MT
+    for(std::vector<wrd::Pixel>& pxl_vec : img) {
+        std::reverse(std::begin(pxl_vec), std::end(pxl_vec));
     }
+    #else
+    std::for_each(
+        std::execution::par,
+        img.begin(),
+        img.end(),
+        [&](std::vector<wrd::Pixel>& pxl_vec) {
+            std::reverse(std::begin(pxl_vec), std::end(pxl_vec));
+        }
+    );
+    #endif
 }
+
 
 int main() {
     wrd::Image img;
-    imgstream::read(img, "circle1.bmp");
-    image_function(img);
+    imgstream::read(img, "Image2_Original.bmp");
+    image_function(img, Vector2u(0, 0), Vector2u(img.getResolution().x, img.getResolution().y));
     imgstream::render(img, "Image2.bmp");
 }

@@ -8,6 +8,24 @@ namespace wrd {
     template<typename T1, typename T2>
     class Shadow_prcl : public Terminal_prcl, public Reactor_prcl {
         private:
+            //string-parsing functions
+            std::string _TO_STRING(const triplet<int>& tr) {
+                return "{" + 
+                std::to_string(tr._triplet_unit_1) + ","
+                + std::to_string(tr._triplet_unit_2) + ","
+                + std::to_string(tr._triplet_unit_3) + "}";
+            }
+            std::string _TO_STRING(const TripletContainer<int>& tr_con) {
+                std::string final = "{";
+                for(const triplet<int>& tr : tr_con)
+                    final += "\n" + _TO_STRING(tr);
+                return final + "\n}";
+            }
+            template<typename T>
+            std::string _TO_STRING(const Vector2<T>& pos) {
+                return "{" + std::to_string(pos.x) + "," + std::to_string(pos.y) + "}";
+            }
+            //!string-parsing functions
             //member data
             std::vector<std::pair<T1, T2>> m__test_cases;
             //!member data
@@ -19,28 +37,31 @@ namespace wrd {
                 : m__test_cases(init_l) {}
             //functions
             void disconnect(wrd::Terminal_prcl& terminal) {
-                JSON_stream.call_disconnect(true);
                 terminal.is_shadowed = true;
             }
             void disconnect(wrd::Reactor_prcl& reactor) {
-                JSON_stream.call_disconnect(true);
                 reactor.is_shadowed = true;
             }
             //
             template<typename F>
             void hijack(F func) {
                 int it = 0;
+                json s_json = SHADOW_JSON;
+                json failed_test_json;
                 for(const auto& t : this->m__test_cases) {
                     if(t.first != func(t.second)) {
-                        std::cout << "[SHADOW]: test failed!\n";
-                        std::cout << "function arguments: " << t.second << "\n";
-                        std::cout << "expected function output: " << t.first << "\n";
-                        std::cout << "but received: " << func(t.second) << "\n";
+                        failed_test_json.push_back({
+                            {"expected", _TO_STRING(t.first)},
+                            {"actual", _TO_STRING(t.second)}
+                        });
                     }
                     else
                         it++;
                 }
-                printf("out of %d tests, %d passed\n", this->m__test_cases.size(), it);
+                s_json["failed_tests"] = failed_test_json;
+                s_json["n_of_tests"] = this->m__test_cases.size();
+                s_json["passed"] = it;
+                JSON_stream.call_disconnect(s_json);
             }
             //
             void append(initializer_list_t<T1, T2> init_l) {

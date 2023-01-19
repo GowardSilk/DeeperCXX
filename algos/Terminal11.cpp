@@ -1,4 +1,4 @@
-#include "../Terminal.hpp"
+#include <Terminal.hpp>
 
 triplet<int> terminal_function(TripletContainer<int> tr_con) {
     std::unordered_map<triplet<int>, int> m;
