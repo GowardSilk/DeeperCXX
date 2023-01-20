@@ -1,9 +1,16 @@
 #include <LogGen.hpp>
 #include <cctype>
 
-bool encoding_algo(char c) {
-    return isalpha(c);
+bool encoding_algo(int val) {
+    return val % 2 == 0;
 }
+
+int next_valid(int val) {
+    while(!encoding_algo(val))
+        val++;
+    return val;
+}
+
 
 int main() {
     //FBR_20_2049
@@ -12,19 +19,6 @@ int main() {
     const std::string writer = "Mark White D";
     LogGen lg(text, addressee, writer);
     lg.gen_cm_arr_custom(text, encoding_algo);
-    lg.encode();
-
-    std::string num, expec;
-    for(const auto& c : lg.m_encoded_text) {
-        if(c != ';')
-            num.push_back(c);
-        else {
-            expec.push_back(
-                lg.m_cm_arr.at(std::stoi(num))
-            );
-            num.erase();
-        }
-    }
-
+    lg.encode_custom(true, next_valid);
     lg.write("Log2.dat");
 }

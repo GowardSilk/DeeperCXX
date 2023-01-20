@@ -30,23 +30,5 @@ int main() {
     LogGen lg(text, addressee, writer);
     lg.gen_cm_arr(text);
     lg.encode();
-
-    wString num, final;
-    for (int i = 0; i < lg.m_encoded_text.length(); i++)
-    {
-        if(lg.m_encoded_text[i] != ';') {
-            num += lg.m_encoded_text[i];
-        }
-        else {
-            final.push_back(
-                lg.m_cm_arr.at(
-                    std::stoi(num)
-                )
-            );
-            num.erase();
-        }
-    }
-
     lg.write("Log5.dat");
-    
 }

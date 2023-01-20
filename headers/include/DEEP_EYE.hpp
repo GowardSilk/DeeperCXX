@@ -58,6 +58,7 @@ namespace wrd {
                     break;
                 case wrd::TXT::FBR_26_2049_11:
                     lg.read("Log4.dat", log);
+                    break;
                 case wrd::TXT::FBR_25_2049_23:
                     lg.read("Log5.dat", log);
                     break;
@@ -73,7 +74,7 @@ namespace wrd {
                 case wrd::TXT::FBR_26_2049_5:
                     lg.read("Log9.dat", log);
                 default:
-                    break;
+                    throw new std::exception("No such file exists!");
                 }
             }
             //  used to "retrieve" footage

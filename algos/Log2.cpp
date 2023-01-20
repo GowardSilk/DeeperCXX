@@ -12,16 +12,19 @@ int main() {
     CodeMatrix letter_map = log.getCodeMatrix();
 
     wString text = log.getText(), final, num;
-    for(unsigned i = 0; i < letter_map.get_size(); i++) {
+    for(unsigned i = 0; i < text.length(); i++) {
         if(text[i] != ';') {
             num += text[i];
         }
         else {
-            final.push_back(
-                letter_map.get_symbol(
-                    std::stoi(num)
-                )
-            );
+            int pos = std::stoi(num);
+            if(pos % 2 == 0) {
+                final.push_back(
+                    letter_map.get_symbol(
+                        std::stoi(num)
+                    )
+                );
+            }
             num.erase();
         }
     }

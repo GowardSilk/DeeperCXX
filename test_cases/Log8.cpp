@@ -39,7 +39,6 @@ int main() {
     const std::string addressee = "//::HQ";
     const std::string writer = "//::DEEP_EYE";
     text = to_uu_encoding(text);
-    std::cout << text << std::endl;
     LogGen lg(text, addressee, writer);
     lg.gen_cm_arr(text);
     lg.encode();

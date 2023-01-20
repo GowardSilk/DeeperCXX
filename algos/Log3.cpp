@@ -1,7 +1,7 @@
 #include <DEEP_EYE.hpp>
 
 bool encoding_algo(int val) {
-    return val % 2 == 0;
+    return val % 2 == 0 && val % 3 == 0;
 }
 
 int main() {
@@ -10,7 +10,7 @@ int main() {
     wrd::Log log;
 
     //get log from DeepEye
-    wrd::DeepEye::LOG_extract(log, wrd::TXT::APRL_16_2049);
+    wrd::DeepEye::LOG_extract(log, wrd::TXT::FBR_24_2049_10);
 
     //"BLACK BOX"
     CodeMatrix letter_map = log.getCodeMatrix();

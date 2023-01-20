@@ -22,7 +22,7 @@ int main() {
     wrd::Log log;
 
     //get log from DeepEye
-    wrd::DeepEye::LOG_extract(log, wrd::TXT::APRL_25_2049);
+    wrd::DeepEye::LOG_extract(log, wrd::TXT::FBR_26_2049_11);
 
     //"BLACK BOX"
     CodeMatrix letter_map = log.getCodeMatrix();

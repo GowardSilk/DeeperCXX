@@ -1,33 +1,46 @@
 #include <DEEP_EYE.hpp>
+#include <sstream>
 
-int check(int num) {
-    int t1 = 0, t2 = 0;
-    while(num > 0) {
-        int rem = num % 10;
-        if(rem == 0) {
-            t2 = t1;
-            t1 = 0;
-        }
-        t1 += rem;
-        num /= 10;
+void from_base64(std::string& input) {
+    std::string output;
+    std::string base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::vector<int> base64_ints;
+
+    for (char i : input)
+        base64_ints.push_back(base64_chars.find(i));
+
+    for (int i = 0; i < base64_ints.size(); i += 4) {
+        int n = (base64_ints[i] << 18) + (base64_ints[i + 1] << 12) + (base64_ints[i + 2] << 6) + base64_ints[i + 3];
+        std::ostringstream oss;
+        oss << (char) (n >> 16) << (char) (n >> 8 & 0xFF) << (char) (n & 0xFF);
+        output += oss.str();
     }
-    if(t1 == t2)
-        return t1;
-    else
-        return 0;
+
+    input = output;
 }
 
 int main() {
     wrd::Log log;
 
-    wrd::DeepEye::LOG_extract(log, wrd::TXT::M_23_2049);
+    wrd::DeepEye::LOG_extract(log, wrd::TXT::FBR_26_2049_18);
 
-    //BLACK BOX
+   //BLACK BOX
     CodeMatrix letter_map = log.getCodeMatrix();
 
-    wString text;
-
-    log.setText(text);
+    wString text = log.getText(), num, final;
+    for(char& ch : text) {
+        if(ch != ';') {
+            num += ch;
+        }
+        else {
+            final.push_back(
+                letter_map.get_symbol(std::stoi(num))
+            );
+            num.clear();
+        }
+    }
+    from_base64(final);
+    log.setText(final);
 
     wrd::DeepEye::read(log);
 }

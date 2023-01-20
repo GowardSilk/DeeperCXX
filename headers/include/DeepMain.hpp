@@ -221,6 +221,9 @@ class CodeMatrix {
 		symbol get_symbol(unsigned pos) { return cm_arr.at(pos); }
 		unsigned get_size() { return cm_arr.size(); }
 		void push(symbol s) { cm_arr.push_back(s); }
+		//iterator f
+		std::vector<symbol>::iterator begin() { return std::begin(cm_arr); }
+		std::vector<symbol>::iterator end() { return std::end(cm_arr); }
 }; //!CodeMatrix
 
 //!definitions

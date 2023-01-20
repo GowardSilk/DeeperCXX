@@ -1,7 +1,7 @@
 #include <LogGen.hpp>
 
 bool encoding_algo(int val) {
-    return val % 2 == 0;
+    return val % 2 == 0 && val % 3 == 0;
 }
 
 int next_valid(int val) {
@@ -18,20 +18,5 @@ int main() {
     LogGen lg(text, addressee, writer);
     lg.gen_cm_arr_custom(text, encoding_algo);
     lg.encode_custom(true, next_valid);
-
-    wString num, final;
-    for (int i = 0; i < lg.m_encoded_text.length(); i++) {
-        if(lg.m_encoded_text[i] != ';')
-            num += lg.m_encoded_text[i];
-        else {
-            int n = std::stoi(num);
-            if(encoding_algo(n)) {
-                final.push_back(lg.m_cm_arr.at(n));
-            }
-            num.erase();
-        }
-    }
-
     lg.write("Log3.dat");
-
 }
