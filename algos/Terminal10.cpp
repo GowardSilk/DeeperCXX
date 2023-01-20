@@ -1,4 +1,4 @@
-#include "../Terminal.hpp"
+#include <Terminal.hpp>
 
 bool find(unsigned& index, TripletContainer<int>& tr_con) {
     for(unsigned j = 0; j < tr_con.size(); j++) {

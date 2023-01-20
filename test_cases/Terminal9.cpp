@@ -1,5 +1,5 @@
-#include "../DeepMain.hpp"
-#include "../Tester.hpp"
+#include <Terminal.hpp>
+#include <Tester.hpp>
 #include <random>
 
 bool terminal_function(triplet<int> tr_con) {

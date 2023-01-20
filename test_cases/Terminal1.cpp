@@ -1,4 +1,4 @@
-#include "../Terminal.hpp"
+#include <Terminal.hpp>
 #include <random>
 
 triplet<int> terminal_function(triplet<int>& tr) {

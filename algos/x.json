@@ -1,1 +1,31 @@
-[{"is_shadowed":false},{"errors":0,"footage":0,"image":0,"log":"WHAT DO YOU THINK YOU ARE DOING ?! ARE YOU COMPLETELY OUT OF YOUR MIND? WHAT HAVE YOU BEEN THINKING? I KNOW YOU ARE READING THIS MESSAGE. I KNOW WHERE YOU ARE. THEY KNOW... MIKE DONT MAKE THIS HARDER FOR YOURSELF...","success":0}]
+// [
+//     {"is_shadowed":null},
+//     {
+//         "footage":0,
+//         "image":0,
+//         "log":0,
+//         "success":{"level":9,"success":100.00001525878906,"type":"TERMINAL"}
+//     }
+// ]
+[
+    {
+        "is_shadowed": {
+            "failed_tests": {
+                "expected": "XyZ",
+                "actual": "xyz"
+            },
+            "n_of_tests": "2",
+            "passed": "1"
+        }
+    },
+    {
+        "footage": "null",
+        "image": "null",
+        "log": "null",
+        "success": {
+            "level": "UNKNWN",
+            "success": "UNKNWN",
+            "type": "UNKNWN"
+        }
+    }
+]

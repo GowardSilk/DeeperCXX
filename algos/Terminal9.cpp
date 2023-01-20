@@ -1,4 +1,4 @@
-#include "../Terminal.hpp"
+#include <Terminal.hpp>
 
 bool terminal_function(triplet<int> tr_con) {
     int sum = tr_con._triplet_unit_1 + tr_con._triplet_unit_2 + tr_con._triplet_unit_3;

@@ -1,4 +1,4 @@
-#include "../Terminal.hpp"
+#include <Terminal.hpp>
 #include <random>
 
 TripletContainer<int> terminal_function(TripletContainer<int> tr_con) {

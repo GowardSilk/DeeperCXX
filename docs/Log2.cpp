@@ -2,22 +2,20 @@
 #include <cctype>
 
 /*!
- * @defgroup L_g2 ?Simple positional
+ * @defgroup L_g2 ?
  * @ingroup E_g_LP 
- * @brief Simple positional encoding is the simplest of all.
+ * @brief ?s
  * In order to decode this message, you need 2 things:
  * <ul>
- *     <li>CodeMatrix</li>
- *     <li>Encoded text</li>
+ *     <li>?</li>
+ *     <li>?</li>
  * </ul>
  * CodeMatrix contains an array (see the documentation) of characters,
  * ocurring in DECODED text.
- * Encoded text contains POSITIONS of characters from CodeMatrix in a specific format:
+ * Encoded text contains ?:
  * every number in string is divided by ';' (e.g. "1;2;3")
  * @code {.cpp}
- * CodeMatrix cm = log.getCodeMatrix(); //{'e', 'H', 'o', ' ', 'w', 'd', 'r', 'l'}
- * wString text = log.getText(); //"1;0;7;7;2;3;4;3;6;7;5"
- * => [ALGORITHM] => expec_str = "Hello World"
+ * ?
  * @endcode
 */
 

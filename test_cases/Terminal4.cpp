@@ -1,4 +1,4 @@
-#include "../Terminal.hpp"
+#include <Terminal.hpp>
 #include <random>
 
 int calc_diff(TripletContainer<int>& tr_con, int pos) {

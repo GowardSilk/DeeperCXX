@@ -5,15 +5,33 @@ using json = nlohmann::json;
 
 const json DEFAULT_JSON_USR = {
     {
-        {"is_shadowed", false}
+        {
+            "is_shadowed", {}
+        }
     },
     {
         {"success", NULL},
-        {"errors", NULL},
         {"log", NULL},
         {"image", NULL},
-        {"footage", NULL}
+        {"footage", NULL},
     }
+};
+
+const json SHADOW_JSON = {
+    {"failed_tests", NULL},
+    {"n_of_tests", NULL},
+    {"passed", NULL}
+};
+
+const json SUCCESS_JSON = {
+    {"level", NULL},
+    {"type", NULL},
+    {"success", NULL}
+};
+
+const json FOOTAGE_JSON = {
+    {"folderDest", NULL},
+    {"timeDuration", NULL}
 };
 
 class Stream {
@@ -45,8 +63,8 @@ class Stream {
                 std::cerr << e.what() << '\n';
             }
         }
-        void call_disconnect(bool b) {
-            jfile[0]["is_shadowed"] = b;
+        void call_disconnect(json json_file) {
+            this->jfile[0]["is_shadowed"].push_back(json_file);
             refresh();
         }
 };
