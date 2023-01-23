@@ -1,15 +1,26 @@
-#include <Shadow.hpp>
-#include <Reactor.hpp>
-
-triplet<int> my_func(triplet<int> tr) {
-    return {0, 0, 0};
-}
+#include <ImageStream.hpp>
 
 int main() {
-    wrd::Terminal_prcl terminal;
-    terminal.connect(wrd::_TERMINAL_::A_220);
-    terminal.hijack(my_func);
-    terminal.override();
 
-    return DEEPER;
+    // wrd::Image img = wrd::Image({
+    //     {wrd::Color::BLACK, wrd::Color::WHITE},
+    //     {wrd::Color::BLACK, wrd::Color::RED},
+    //     {wrd::Color::WHITE, wrd::Color::WHITE},
+    //     {wrd::Color::BLACK, wrd::Color::WHITE},
+    //     {wrd::Color::BLACK, wrd::Color::WHITE},
+    //     {wrd::Color::BLACK, wrd::Color::WHITE},
+    //     {wrd::Color::BLACK, wrd::Color::YELLOW},
+    //     {wrd::Color::BLACK, wrd::Color::WHITE},
+    //     {wrd::Color::BLACK, wrd::Color::WHITE},
+    //     {wrd::Color::WHITE, wrd::Color::WHITE},
+    //     {wrd::Color::BLACK, wrd::Color::WHITE},
+    //     {wrd::Color::BLACK, wrd::Color::WHITE},
+    //     {wrd::Color::BLACK, wrd::Color::WHITE},
+    //     {wrd::Color::WHITE, wrd::Color::BLUE},
+    // });
+    // imgstream::render(img, "ImageSkuska.bmp");
+    wrd::Image img2;
+    imgstream::read(img2, "ImageSkuska.bmp");
+    imgstream::render(img2, "ImageSkuskaAfter.bmp");
+    return 0;
 }

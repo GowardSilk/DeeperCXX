@@ -287,13 +287,8 @@ namespace wrd {
                     //&pixel_container[0][0]
                 );
             }
-            Iterator begin(unsigned pos_move) {
-                return Iterator(
-                    //for height pointer, point to the first vector
-                    &pixel_container[0]
-                    //point to the first element of the first vector
-                    //&pixel_container[0][0]
-                ) + pos_move;
+            auto begin(unsigned pos = 0) {
+                return this->pixel_container.begin() + pos;
             }
             Iterator end() {
                 int last = pixel_container.size()-1;
@@ -303,6 +298,9 @@ namespace wrd {
                     //point to the last element of the last vector
                     //&pixel_container[last][pixel_container.at(last).size()-1]
                 );
+            }
+            void append(std::vector<uint8_t>::const_iterator beg, std::vector<uint8_t>::const_iterator end, std::vector<std::vector<wrd::Pixel>>::iterator dest) {
+                std::copy(beg, end, dest);
             }
     }; //!Image
 

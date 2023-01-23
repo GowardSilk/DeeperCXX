@@ -1,8 +1,12 @@
 #ifndef IMAGE_STREAM_HPP
 #define IMAGE_STREAM_HPP
 
+#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
+
 #include "Image.hpp"
 #include "Benchmark.hpp"
+
+#include <thread>
 
 const int MIN_RGB=0;
 const int MAX_RGB=255;
@@ -81,6 +85,7 @@ namespace imgstream {
     }
 
     static void read(wrd::Image& img, const char* fileDest) {
+        Benchmark test;
         std::ifstream file = std::ifstream(fileDest, std::ios::in | std::ios::binary);
 
         if(!file.is_open()) {
@@ -88,12 +93,19 @@ namespace imgstream {
             exit(1);
         }
 
-        //ignore 'B', 'M' identifier
-        file.ignore(sizeof(bmpfile_magic));
+        //check 'B', 'M' identifier
+        bmpfile_magic magic;
+        file.read(reinterpret_cast<char*>(&magic), sizeof(magic));
+        if(magic.magic[0] != 'B' || magic.magic[1] != 'M') {
+            std::cout << "bitmap is corrupted!";
+            exit(EXIT_FAILURE);
+        }
+
+        std::ios::sync_with_stdio(false);
 
         bmpfile_header header;
         file.read(reinterpret_cast<char*>(&header), sizeof(header));
-        std::cout << "bmpfile_header = "
+        std::cout << "bmpfile_header---- \n"
                 << "file_size : " << header.file_size << "\n"
                 << "creator1 : " << header.creator1 << "\n"
                 << "creator2 : " << header.creator2 << "\n"
@@ -102,7 +114,7 @@ namespace imgstream {
 
         bmpfile_dib_info dib_info;
         file.read(reinterpret_cast<char*>(&dib_info), sizeof(dib_info));
-        std::cout << "bmpfile_dib_info \n" <<
+        std::cout << "bmpfile_dib_info---- \n" <<
             "header_size: " << dib_info.header_size << "\n" <<
             "width: " << dib_info.width << "\n" <<
             "height: " << dib_info.height << "\n" <<
@@ -118,33 +130,53 @@ namespace imgstream {
             std::cout << "Cannot read compressed img!";
             exit(1);
         }
-        file.seekg(header.bmp_offset);
 
+#define MT
+#ifdef MT
+        std::streampos filepos = file.tellg();
+        std::basic_filebuf<char>* filebuf = file.rdbuf();
+        std::vector<uint8_t> buffer(dib_info.width*dib_info.height*3); //width*height*RGB vals
+
+        const auto read_block = [&](std::basic_filebuf<char>& filebuf, std::vector<unsigned char>& buffer, int start, int end) {
+            filebuf.pubseekpos(start + filepos);
+            filebuf.sgetn(reinterpret_cast<char*>(buffer.data()) + start, end - start);
+        };
+
+        //create a vector of threads
+        std::vector<std::thread> threads;
+        int num_threads = std::thread::hardware_concurrency();
+        int block_size = buffer.size() / num_threads;
+
+        for (int i = 0; i < num_threads; i++) {
+            int start = (i * block_size);
+            int end = ((i + 1) * block_size);
+            if (i == num_threads - 1) {
+                end = buffer.size();
+            }
+            threads.emplace_back(std::thread(read_block, std::ref(*filebuf), std::ref(buffer), start, end));
+        }
+
+        //wait for all threads to finish
+        for (std::thread& thread : threads)
+            thread.join();
+        
+        img = wrd::Image(dib_info.width, dib_info.height);
+        unsigned width = dib_info.width*3;
+        for(const auto& c : buffer) {
+            std::cout << (int)c;
+        }
+        for (int y = 0; y < dib_info.height; ++y) {
+
+            auto start_itr = std::next(buffer.cbegin(), y*dib_info.width*3);
+            auto end_itr = std::next(buffer.cbegin(), y*dib_info.width*3 + dib_info.width*3);
+    
+            const std::vector<uint8_t> row(start_itr, end_itr);
+
+            img.append(start_itr, end_itr, img.begin(0));
+        }
+#else
         //initialize image for specific width/height
         img = wrd::Image(Vector2sz(dib_info.width, dib_info.height));
-    //#define MT
-    //MT stands for multithreading -> this is disabled because it is actually
-    //not effective because of hard thread locking
-    Benchmark test;
-    //#pragma omp parallel for
-    #ifdef MT
-        unsigned y = 0;
-        std::for_each(
-            std::execution::par,
-            img.begin(),
-            img.end(),
-            [&](std::vector<wrd::Pixel>& pxl_line) {
-                for(int32_t x = 0; x < pxl_line.size(); x++) {
-                    img.setPixel(
-                        Vector2u(x, y),
-                        wrd::Pixel(file.get(), file.get(), file.get()) //Pixel takes RGB values to BGR!
-                    );
-                }
-                file.ignore(dib_info.height % 4);
-                y++;
-            }
-        );
-    #else
         for(int32_t y = 0; y < dib_info.height; y++) {
             for(int32_t x = 0; x < dib_info.width; x++) {
                 img.setPixel(
@@ -155,7 +187,7 @@ namespace imgstream {
             //ignore padding
             file.seekg(dib_info.width % 4, std::ios::cur);
         }
-    #endif
+#endif //!MT
         if(file.good())
             std::cout << "[imgstream::read] img was successfully read!\n";
         else
