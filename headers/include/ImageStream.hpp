@@ -131,14 +131,15 @@ namespace imgstream {
             exit(1);
         }
 
-#define MT
+// #define MT --> not very efficient in the end -> not recommended to use
 #ifdef MT
         std::streampos filepos = file.tellg();
         std::basic_filebuf<char>* filebuf = file.rdbuf();
-        std::vector<uint8_t> buffer(dib_info.width*dib_info.height*3); //width*height*RGB vals
+        std::vector<uint8_t> buffer(dib_info.width*dib_info.height*3); // size -> width*height*RGB vals
+        filebuf->pubseekpos(filepos);
 
         const auto read_block = [&](std::basic_filebuf<char>& filebuf, std::vector<unsigned char>& buffer, int start, int end) {
-            filebuf.pubseekpos(start + filepos);
+            filebuf.pubseekpos(start+filepos);
             filebuf.sgetn(reinterpret_cast<char*>(buffer.data()) + start, end - start);
         };
 
@@ -162,18 +163,31 @@ namespace imgstream {
         
         img = wrd::Image(dib_info.width, dib_info.height);
         unsigned width = dib_info.width*3;
-        for(const auto& c : buffer) {
-            std::cout << (int)c;
+        for(const uint8_t& ch : buffer) {
+            std::cout << (int)ch;
         }
+        std::cout << std::endl;
         for (int y = 0; y < dib_info.height; ++y) {
 
-            auto start_itr = std::next(buffer.cbegin(), y*dib_info.width*3);
-            auto end_itr = std::next(buffer.cbegin(), y*dib_info.width*3 + dib_info.width*3);
-    
-            const std::vector<uint8_t> row(start_itr, end_itr);
+            std::vector<uint8_t>::iterator start_it, end_it;
+            if(y == dib_info.height - 1) {
+                start_it = buffer.begin() + y*dib_info.width*3; /*std::next(buffer.cbegin(), y*dib_info.width*3);*/
+                end_it = start_it;
+            }
+            else {
+                start_it = buffer.begin() + y*dib_info.width*3;
+                end_it = buffer.begin() + (y+1)*dib_info.width*3;
+            }
 
-            img.append(start_itr, end_itr, img.begin(0));
+            img.append(start_it, end_it, img.begin(y));
+
+            for(unsigned x = 0; x < dib_info.width; x++) {
+                std::cout << img.getPixel(x, y).getRGB() << ",";
+            }
+            std::cout << std::endl;
         }
+
+        filebuf->close();
 #else
         //initialize image for specific width/height
         img = wrd::Image(Vector2sz(dib_info.width, dib_info.height));

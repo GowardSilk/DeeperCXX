@@ -6,6 +6,7 @@
 class Benchmark {
     public:
         Benchmark() {
+            std::cout << "[Benchmark::start]\n";
             m_Bench_start = std::chrono::high_resolution_clock::now();
         }
         ~Benchmark() {
@@ -17,7 +18,8 @@ class Benchmark {
             auto start = std::chrono::time_point_cast<std::chrono::microseconds>(m_Bench_start).time_since_epoch().count();
             auto end = std::chrono::time_point_cast<std::chrono::microseconds>(_Bench_end).time_since_epoch().count();
             auto duration = end - start;
-            printf_s("[Benchmark::stop]: duration: %d microseconds\n", duration);
+            printf_s("[Benchmark::stop]");
+            printf_s("[Benchark::duration]:%d microseconds\n", duration);
             is_stopped = true;
         }
     private:

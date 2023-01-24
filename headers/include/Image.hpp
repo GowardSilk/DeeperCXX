@@ -287,8 +287,8 @@ namespace wrd {
                     //&pixel_container[0][0]
                 );
             }
-            auto begin(unsigned pos = 0) {
-                return this->pixel_container.begin() + pos;
+            std::vector<wrd::Pixel>::iterator begin(unsigned pos = 0) {
+                return this->pixel_container[pos].begin();
             }
             Iterator end() {
                 int last = pixel_container.size()-1;
@@ -299,8 +299,16 @@ namespace wrd {
                     //&pixel_container[last][pixel_container.at(last).size()-1]
                 );
             }
-            void append(std::vector<uint8_t>::const_iterator beg, std::vector<uint8_t>::const_iterator end, std::vector<std::vector<wrd::Pixel>>::iterator dest) {
-                std::copy(beg, end, dest);
+            typedef std::vector<uint8_t>::iterator vec_uc_it;
+            typedef std::vector<wrd::Pixel>::iterator vec_pxl_it;
+            void append(vec_uc_it beg, vec_uc_it end,  vec_pxl_it dest) {
+                std::vector<wrd::Pixel> vec_pxl;
+                for(vec_uc_it it = beg; it < end; it = std::next(it, 3)) {
+                      vec_pxl.push_back(
+                        wrd::Pixel(*it, *(it+1), *(it+2))
+                      );
+                }
+                std::move(vec_pxl.begin(), vec_pxl.end(), dest);
             }
     }; //!Image
 
