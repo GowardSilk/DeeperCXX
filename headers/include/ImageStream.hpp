@@ -131,7 +131,7 @@ namespace imgstream {
             exit(1);
         }
 
-// #define MT --> not very efficient in the end -> not recommended to use
+//#define MT //--> not very efficient in the end -> not recommended to use
 #ifdef MT
         std::streampos filepos = file.tellg();
         std::basic_filebuf<char>* filebuf = file.rdbuf();
@@ -179,7 +179,7 @@ namespace imgstream {
                 end_it = buffer.begin() + (y+1)*dib_info.width*3;
             }
 
-            img.append(start_it, end_it, img.begin(y));
+            img.append(start_it, end_it, img.obegin(y));
 
             for(unsigned x = 0; x < dib_info.width; x++) {
                 std::cout << img.getPixel(x, y).getRGB() << ",";

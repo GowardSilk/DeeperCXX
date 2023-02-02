@@ -1,26 +1,22 @@
 #include <DEEP_EYE.hpp>
 #include <Image.hpp>
 
+/*!
+ * @defgroup I_g2 Pixel Row Rotation
+ * @ingroup I_g 
+ * @brief "Pixel Row Rotated" Images have the reverse order of their rows
+ * @code {.cpp}
+ * Image encoeded {
+ *  PIXEL1, PIXEL2,
+ *  PIXEL3, PIXEL4
+ * } 
+ * => [ALGORITHM] => 
+ * Image decoded {
+ *  PIXEL2, PIXEL1,
+ *  PIXEL4, PIXEL3
+ * }
+ * @endcode
+*/
+
 int main() {
-    
-    //create blank image
-    wrd::Image img;
-
-    //download image from DeepEye
-    wrd::DeepEye::IMG_download(img, wrd::JPEG::M_5_2049);
-
-    //"BLACK BOX"
-    for(std::size_t y = 0; y < img.getResolution().y; y++) {
-        for(std::size_t x = 0; x < img.getResolution().x; x++) {
-            if(x % 2 == 0) 
-                img.setPixel(Vector2u(x, y), wrd::Pixel(0, 0, 0));
-            else
-                img.setPixel(Vector2u(x, y), wrd::Pixel(255, 255, 255));
-        }
-    }
-
-    //upload image to DeepEye
-    wrd::DeepEye::render(img);
-
-    return DEEPER;
 }

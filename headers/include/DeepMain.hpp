@@ -157,11 +157,7 @@ class TripletContainer : public std::vector<triplet<T>> {
 		}
 		void push_back(T t1, T t2, T t3) {
 			std::vector<triplet<T>>::push_back(
-				(triplet<T>) {
-					._triplet_unit_1=t1,
-            		._triplet_unit_2=t2,
-            		._triplet_unit_3=t3
-				}
+				triplet<T>(t1, t2, t3)
 			);
 		}
 		template<typename Iterator, class U>

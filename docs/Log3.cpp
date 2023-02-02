@@ -1,20 +1,20 @@
 #include <LogGen.hpp>
 
 /*!
- * @defgroup L_g3 Even positional
+ * @defgroup L_g3 6th positional
  * @ingroup E_g_LP 
- * @brief Even positional encoding.
+ * @brief 6th positional encoding.
  * In order to decode this message, you need 2 things:
  * <ul>
  *     <li>CodeMatrix</li>
  *     <li>Encoded text</li>
  * </ul>
- * CodeMatrix contains an array (see the documentation) of characters, but only on even positions!
+ * CodeMatrix contains an array (see the documentation) of characters, but only on positions of dividable by 6 (2 && 3) positions!
  * Encoded text contains POSITIONS of characters from CodeMatrix in a specific format:
  * every number in string is divided by ';' (e.g. "1;2;3")
  * @code {.cpp}
- * CodeMatrix cm = log.getCodeMatrix(); //{'H', NULL, 'l', LF, 'e', '@', 'o'}
- * wString text = log.getText(); //"0;4;2;2;6"
+ * CodeMatrix cm = log.getCodeMatrix(); //{'H', ...(+5)..., 'e', ...(+5)..., 'l', ...(+5)..., 'o'}
+ * wString text = log.getText(); //"0;6;12;12;18"
  * => [ALGORITHM] => expec_str = "Hello"
  * @endcode
 */

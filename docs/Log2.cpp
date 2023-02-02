@@ -2,20 +2,21 @@
 #include <cctype>
 
 /*!
- * @defgroup L_g2 ?
+ * @defgroup L_g2 Even positional
  * @ingroup E_g_LP 
- * @brief ?s
+ * @brief Even positional encoding.
  * In order to decode this message, you need 2 things:
  * <ul>
- *     <li>?</li>
- *     <li>?</li>
+ *     <li>CodeMatrix</li>
+ *     <li>Encoded text</li>
  * </ul>
- * CodeMatrix contains an array (see the documentation) of characters,
- * ocurring in DECODED text.
- * Encoded text contains ?:
+ * CodeMatrix contains an array (see the documentation) of characters, but only on even positions!
+ * Encoded text contains POSITIONS of characters from CodeMatrix in a specific format:
  * every number in string is divided by ';' (e.g. "1;2;3")
  * @code {.cpp}
- * ?
+ * CodeMatrix cm = log.getCodeMatrix(); //{'H', NULL, 'l', LF, 'e', '@', 'o'}
+ * wString text = log.getText(); //"0;4;2;2;6"
+ * => [ALGORITHM] => expec_str = "Hello"
  * @endcode
 */
 

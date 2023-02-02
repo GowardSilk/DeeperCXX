@@ -1,22 +1,23 @@
 #include <DEEP_EYE.hpp>
 
+/**
+ * @defgroup I_g Image Encodings
+ */
+
+/*!
+ * @defgroup I_g1 RGB Switch
+ * @ingroup I_g 
+ * @brief Images encoded in RGB switch have switched RGB values such that encoded Image has switched R and B values from the original.
+ * @code {.cpp}
+ * Image encoeded {
+ *  Pixels = { B, G, R }
+ * } 
+ * => [ALGORITHM] => 
+ * Image decoded {
+ *  Pixels = { R, G, B }
+ * }
+ * @endcode
+*/
+
 int main() {
-
-    //create blank image
-    wrd::Image img;
-    
-    //retrieve image from Deep Eye
-    wrd::DeepEye::IMG_download(img, wrd::JPEG::MRCH_2_2049);
-
-    //"BLACK BOX"
-    for(std::size_t y = 0; y < img.getResolution().y; y++) {
-        for(std::size_t x = 0; x < img.getResolution().x; x++) {
-            img.getPixel(Vector2u(x, y)).setOpaque(255);
-        }
-    }
-
-    //test
-    wrd::DeepEye::render(img);
-
-    return DEEPER;
 }

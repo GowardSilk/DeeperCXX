@@ -287,7 +287,7 @@ namespace wrd {
                     //&pixel_container[0][0]
                 );
             }
-            std::vector<wrd::Pixel>::iterator begin(unsigned pos = 0) {
+            std::vector<wrd::Pixel>::iterator obegin(unsigned pos = 0) {
                 return this->pixel_container[pos].begin();
             }
             Iterator end() {
