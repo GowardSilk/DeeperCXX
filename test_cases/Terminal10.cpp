@@ -33,11 +33,7 @@ int main() {
     for(unsigned short i = 0; i < 10; i++) {
         TripletContainer<int> input(15);
         for(unsigned short j = 0; j < 15; j++) {
-            triplet<int> tr = {
-                ._triplet_unit_1 = getRND(1, 100),
-                ._triplet_unit_2 = getRND(1, 100),
-                ._triplet_unit_3 = getRND(1, 100),
-            };
+            triplet<int> tr(getRND(1, 100), getRND(1, 100), getRND(1, 100));
             writer.write_int(tr._triplet_unit_1);
             writer.write_int(tr._triplet_unit_2);
             writer.write_int(tr._triplet_unit_3);

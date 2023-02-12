@@ -141,11 +141,27 @@ namespace wrd {
 						//
 						case _TERMINAL_::C_246:
 						{	//
-							std::ifstream rf("Terminal6.dat", std::ios::out | std::ios::binary);
-							if(!rf) {
-								std::cout << "cannot read file!\n";
+							ReadIO reader("Terminal6.dat");
+							TripletContainer<int> input; input.reserve(15);
+							int tr1 = 0, tr2 = 0, tr3 = 0;
+							triplet<int> expec;
+							for(uint8_t i = 0; i < 10; i++) {
+								for(uint8_t n = 0; n < 15; n++) {
+									reader.read_int(tr1);
+									reader.read_int(tr2);
+									reader.read_int(tr3);
+									input.push_back(triplet<int>(tr1, tr2, tr3));
+								}
+								reader.read_int(tr1);
+								reader.read_int(tr2);
+								reader.read_int(tr3);
+								expec = triplet<int>(tr1, tr2, tr3);
+								if(expec == func(input))
+									this->terminal_hack_success += 0.1f;
+								input.clear();
 							}
-							rf.close();
+							reader.close();
+							break;
 						}
 						case _TERMINAL_::D_230:
 						{	//
@@ -154,6 +170,7 @@ namespace wrd {
 								std::cout << "cannot read file!\n";
 							}
 							rf.close();
+							break;
 						}
 						default:
 							throw std::invalid_argument("[TERMINAL_PRCL]: No such _TERMINAL_ exists!");

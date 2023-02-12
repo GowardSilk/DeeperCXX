@@ -2,9 +2,15 @@
 #include <random>
 
 TripletContainer<int> terminal_function(TripletContainer<int> tr_con) {
-    std::sort(std::begin(tr_con), std::end(tr_con), [](triplet<int>& tr1, triplet<int>& tr2){
-        return tr1 < tr2;
-    });
+    for(int i = 0; i < tr_con.size() ; i++) {		
+		for(int j = i + 1; j < tr_con.size(); j++) {
+			if(tr_con[i] > tr_con[j]) {
+				auto temp = tr_con[i];
+				tr_con[i] = tr_con[j];
+				tr_con[j] = temp;
+			}
+		}
+	}
     return tr_con;
 }
 
@@ -24,25 +30,28 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    TripletContainer<int> input;
-    TripletContainer<int> expected;
+    TripletContainer<int> input; input.reserve(15);
+    TripletContainer<int> expected; expected.reserve(15);
     //write all test cases
     for(unsigned t = 0; t < 10; t++) {
         //one test case...
+        printf_s("TEST_CASE #%i\n", t);
+        std::cout << "BEFORE\n";
         for(unsigned n = 0; n < 15; n++) {
-            triplet<int> tr = {
-                ._triplet_unit_1 = getRND(1, 1000),
-                ._triplet_unit_2 = getRND(1, 1000),
-                ._triplet_unit_3 = getRND(1, 1000)
-            };
-            std::cout << tr << std::endl;
+            triplet<int> tr(getRND(1, 1000), getRND(1, 1000), getRND(1, 1000));
             input.push_back(tr);
+            std::cout << input.sum_at(0, std::begin(input)+n) << std::endl;
             wf.write((char *) &tr, sizeof(triplet<int>));
         }
+        std::cout << "AFTER\n";
         expected = terminal_function(input);
         for(unsigned n = 0; n < 15; n++) {
+            std::cout << expected.sum_at(0, std::begin(expected)+n) << std::endl;
             wf.write((char *) &expected.at(n), sizeof(triplet<int>));
         }
+        std::cout << "----------------\n";
+        input.clear();
+        expected.clear();
     }
 
     wf.close();

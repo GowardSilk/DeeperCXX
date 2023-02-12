@@ -124,6 +124,15 @@ triplet<wString> to_wString(triplet<int> tr) {
 		std::to_string(tr._triplet_unit_3)
 	);
 }
+
+struct triplet_hasher {
+	std::size_t operator()(const triplet<int>& tr) const {
+		std::size_t h1 = std::hash<int>{}(tr._triplet_unit_1);
+		std::size_t h2 = std::hash<int>{}(tr._triplet_unit_2);
+		std::size_t h3 = std::hash<int>{}(tr._triplet_unit_3);
+		return h1 ^ (h2 << 1) ^ (h3 << 2);
+	}
+};
 //!triplet
 
 // template<class T>
@@ -169,7 +178,7 @@ class TripletContainer : public std::vector<triplet<T>> {
 		}
 		template<typename Iterator, class U>
 		U sum_at(U init_val, Iterator from) {
-			sum_at(init_val, from, from+1);
+			return sum_at(init_val, from, from+1);
 		}
 }; 
 

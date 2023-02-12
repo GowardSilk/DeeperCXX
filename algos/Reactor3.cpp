@@ -10,8 +10,8 @@
 wString reactor_function(sString strong_str) {
     wString ans;
     for(unsigned i = 0; i < strong_str.value.length(); i++) {
-        const char x = strong_str.value.at(i);
-        for(unsigned j = 0; j < strong_str.key.length(); i++) {
+        char x = strong_str.value.at(i);
+        for(unsigned j = 0; j < strong_str.key.length(); j++) {
             if(x == strong_str.key.at(j)) {
                 ans.push_back(x);
                 break;

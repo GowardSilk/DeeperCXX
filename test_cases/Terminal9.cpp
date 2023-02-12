@@ -24,11 +24,7 @@ int getRND(int from, int to) {
 int main() {
     WriteIO writer("Terminal9.dat");
     for(unsigned short i = 0; i < 10; i++) {
-        triplet<int> input = {
-            ._triplet_unit_1 = getRND(1, 100),
-            ._triplet_unit_2 = getRND(1, 100),
-            ._triplet_unit_3 = getRND(1, 100),
-        };
+        triplet<int> input(getRND(1, 100), getRND(1, 100), getRND(1, 100));
         writer.write_int(input._triplet_unit_1);
         writer.write_int(input._triplet_unit_2);
         writer.write_int(input._triplet_unit_3);

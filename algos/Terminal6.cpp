@@ -1,11 +1,11 @@
 #include <Terminal.hpp>
 
 triplet<int> terminal_function(TripletContainer<int> tr_con) {
-    std::unordered_map<triplet<int>, int> map;
+    std::unordered_set<triplet<int>, triplet_hasher> map;
     for(triplet<int> tr : tr_con) {
-        if(map[tr] != 0) {
+        if(map.find(tr) != std::end(map))
             return tr;
-        }
+        map.insert(tr);
     }
 }
 

@@ -11,7 +11,7 @@
         @return expected triplet
 */
 triplet<int> terminal_function(TripletContainer<int> tr_con) {
-    std::unordered_map<triplet<int>, int> m;
+    std::unordered_map<triplet<int>, int, triplet_hasher> m;
     for(triplet<int> tr : tr_con) {
         m[tr]++;
     }

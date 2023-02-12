@@ -36,11 +36,7 @@ int main() {
     for(unsigned t = 0; t < 10; t++) {
         //one test case...
         for(unsigned n = 0; n < 5; n++) {
-            triplet<int> tr = {
-                ._triplet_unit_1 = getRND(1, 1000),
-                ._triplet_unit_2 = getRND(1, 1000),
-                ._triplet_unit_3 = getRND(1, 1000)
-            };
+            triplet<int> tr(getRND(1, 100), getRND(1, 100), getRND(1, 100));
             tr_con_input.push_back(tr);
         }
     }
