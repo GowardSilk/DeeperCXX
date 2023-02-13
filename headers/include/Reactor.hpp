@@ -150,6 +150,21 @@ namespace wrd {
 						//!TEST_CASES
 						reader.close();
 					}	break;
+					case _REACTOR_::CITADEL_v2_2B: {
+						ReadIO reader("Reactor10.dat");
+						//TEST_CASES
+						for(unsigned i = 0; i < 10; i++) {
+							wString key; reader.read_string(key);
+							wString value; reader.read_string(value);
+							wString expected; reader.read_string(expected);
+							if(func((sString) {.key = key, .value = value}) == expected)
+								this->reactor_hack_success += 0.1f;
+							else
+								std::cout << "{" << key << ":" << value << "}\n" << "EXPEC: " << expected << "ACTUAL: " << func((sString){.key = key, .value = value}) << std::endl;
+						}
+						//!TEST_CASES
+						reader.close();
+					}	break;
 					default:
 						throw std::invalid_argument("[REACTOR_PRCL]: No such _REACTOR_ exists!");
 						break;

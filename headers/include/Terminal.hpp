@@ -99,6 +99,29 @@ namespace wrd {
 				}
 			}
 			void hijack(triplet<int> (*func)(TripletContainer<int>)) {
+				//define a lambda for testing -> same for every case of function triplet<int> (*)(TripletContainer<int>)
+				const auto test_block = [this](const char* f_dest, auto& func) {
+					ReadIO reader(f_dest);
+					TripletContainer<int> input; input.reserve(15);
+					int tr1 = 0, tr2 = 0, tr3 = 0;
+					triplet<int> expec;
+					for(uint8_t i = 0; i < 10; i++) {
+						for(uint8_t n = 0; n < 15; n++) {
+							reader.read_int(tr1);
+							reader.read_int(tr2);
+							reader.read_int(tr3);
+							input.push_back(triplet<int>(tr1, tr2, tr3));
+						}
+						reader.read_int(tr1);
+						reader.read_int(tr2);
+						reader.read_int(tr3);
+						expec = triplet<int>(tr1, tr2, tr3);
+						if(expec == func(input))
+							this->terminal_hack_success += 0.1f;
+						input.clear();
+					}
+					reader.close();
+				};
 				if(!is_shadowed) {
 					switch (this->terminal_type)
 					{
@@ -110,66 +133,18 @@ namespace wrd {
 						//
 						case _TERMINAL_::B_301:
 						{	//
-							std::ifstream rf("Terminal3.dat", std::ios::out | std::ios::binary);
-							if(!rf) {
-								std::cout << "cannot read file!\n";
-							}
-							//TEST_CASES
-							for(unsigned i = 0; i < 10; i++) {
-								TripletContainer<int> tr_con_input;
-								for(unsigned i = 0; i < 5; i++) {
-									triplet<int> tr_temp;
-									rf.read((char*) &tr_temp, sizeof(triplet<int>));
-									tr_con_input.push_back(tr_temp);
-								}
-
-								triplet<int> tr_expected;
-								rf.read((char*) &tr_expected, sizeof(triplet<int>));
-
-								if(tr_expected == func(tr_con_input))
-									this->terminal_hack_success += 0.1f;
-
-								if(!rf.good()) {
-									std::cout << "error occurred at reading time!\n";
-								}
-
-							}
-							//!TEST_CASES
-							rf.close();
+							test_block("Terminal3.dat", func);
 							break;
 						}
 						//
 						case _TERMINAL_::C_246:
 						{	//
-							ReadIO reader("Terminal6.dat");
-							TripletContainer<int> input; input.reserve(15);
-							int tr1 = 0, tr2 = 0, tr3 = 0;
-							triplet<int> expec;
-							for(uint8_t i = 0; i < 10; i++) {
-								for(uint8_t n = 0; n < 15; n++) {
-									reader.read_int(tr1);
-									reader.read_int(tr2);
-									reader.read_int(tr3);
-									input.push_back(triplet<int>(tr1, tr2, tr3));
-								}
-								reader.read_int(tr1);
-								reader.read_int(tr2);
-								reader.read_int(tr3);
-								expec = triplet<int>(tr1, tr2, tr3);
-								if(expec == func(input))
-									this->terminal_hack_success += 0.1f;
-								input.clear();
-							}
-							reader.close();
+							test_block("Terminal6.dat", func);
 							break;
 						}
 						case _TERMINAL_::D_230:
 						{	//
-							std::ifstream rf("Terminal11.dat", std::ios::out | std::ios::binary);
-							if(!rf) {
-								std::cout << "cannot read file!\n";
-							}
-							rf.close();
+							test_block("Terminal11.dat", func);
 							break;
 						}
 						default:
@@ -254,13 +229,31 @@ namespace wrd {
 						rf.close();
 					}	break;
 					case _TERMINAL_::D_443: {
-						std::ifstream rf("Terminal10.dat", std::ios::out | std::ios::binary);
-						if(!rf) {
-							std::cout << "cannot read file!\n";
-						}
+						ReadIO reader("Terminal10.dat");
 						//TEST_CASES
+						TripletContainer<int> input; input.reserve(15);
+						TripletContainer<int> expected; expected.reserve(5);
+						int tr1 = 0, tr2 = 0, tr3 = 0;
+						for(uint8_t i = 0; i < 10; i++) {
+							for(uint8_t j = 0; j < 15; j++) {
+								reader.read_int(tr1);
+								reader.read_int(tr2);
+								reader.read_int(tr3);
+								input.push_back(triplet<int>(tr1, tr2, tr3));
+							}
+							for(uint8_t j = 0; j < 5; j++) {
+								reader.read_int(tr1);
+								reader.read_int(tr2);
+								reader.read_int(tr3);
+								expected.push_back(triplet<int>(tr1, tr2, tr3));
+							}
+							if(func(input) == expected)
+								this->terminal_hack_success += 0.1f;
+							input.clear();
+							expected.clear();
+						}
 						//!TEST_CASES
-						rf.close();
+						reader.close();
 					}	break;
 					default:
 						throw std::invalid_argument("[TERMINAL_PRCL]: No such _TERMINAL_ exists!");

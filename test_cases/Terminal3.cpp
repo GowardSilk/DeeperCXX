@@ -33,7 +33,7 @@ int main(void) {
     //write all test cases
     for(unsigned t = 0; t < 10; t++) {
         //one test case...
-        for(unsigned n = 0; n < 5; n++) {
+        for(unsigned n = 0; n < 15; n++) {
             triplet<int> tr(getRND(1, 1000), getRND(1, 1000), getRND(1, 1000));
             tr_con_input.push_back(tr);
         }
@@ -43,7 +43,7 @@ int main(void) {
     for(unsigned i = 0; i < 10; i++) {
         printf("------[%d]------\n", i);
         //write input
-        for(unsigned j = 5*i; j < (5*i)+5; j++) {
+        for(unsigned j = 15*i; j < (15*i)+15; j++) {
             const auto& x = tr_con_input.at(j);
             printf("---{%d, %d, %d}---\n",
                         x._triplet_unit_1,
@@ -54,7 +54,7 @@ int main(void) {
         }
         //write expected output
         std::vector<triplet<int>> v(
-            tr_con_input.begin()+5*i, tr_con_input.begin()+5*i+5
+            tr_con_input.begin()+15*i, tr_con_input.begin()+15*i+15
         );
         TripletContainer<int> temp(v);
         tr_expected = T_A(temp);

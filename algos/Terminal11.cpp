@@ -1,13 +1,14 @@
 #include <Terminal.hpp>
 
 triplet<int> terminal_function(TripletContainer<int> tr_con) {
-    std::unordered_map<triplet<int>, int> m;
+    std::unordered_map<triplet<int>, int, triplet_hasher> m;
     for(triplet<int> tr : tr_con) {
-        m[tr]++;
+        if(m.find(tr) != std::end(m)) { m[tr]++; }
+        else { m.insert({tr, 0}); }
     }
     int max = 0;
     triplet<int> max_elem = tr_con[max];
-    for(const auto x : m) {
+    for(const auto& x : m) {
         if(max < x.second) {
             max = x.second;
             max_elem = x.first;
